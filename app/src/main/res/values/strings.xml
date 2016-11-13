@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Learn Colours</string>
+    <string name="title_activity_main">Colours</string>
+    <string name="new_colours_game">Identify Colours</string>
+    <string name="new_numbers_game">Identify Numbers</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="exit_game">Exit</string>
+</resources>
