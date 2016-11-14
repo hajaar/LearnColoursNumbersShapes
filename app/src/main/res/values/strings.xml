@@ -5,4 +5,5 @@
     <string name="new_numbers_game">Identify Numbers</string>
     <string name="action_feedback">Feedback</string>
     <string name="exit_game">Exit</string>
+    <string name="new_shapes_game">Identify Shapes</string>
 </resources>

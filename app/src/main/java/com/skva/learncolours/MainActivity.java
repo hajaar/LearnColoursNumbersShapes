@@ -6,11 +6,12 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -20,20 +21,23 @@ import java.util.Locale;
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final int COUNT = 10;
     private static final String TAG = "MainActivity";
-    private SwipeRefreshLayout swipeContainer;
-    private FirebaseAnalytics mFirebaseAnalytics;
-    private int GAME_TYPE = 0;
     Animation animScale;
     TextToSpeech t1;
     String[] colorText = {"Red", "Blue", "Black", "White", "Yellow", "Green", "Purple", "Pink", "Orange", "Brown"};
     String[] colorHexCode = {"#FF0000", "#0000FF", "#000000", "#FFFFFF", "#FFFF00", "#008000", "#800080", "#ff69b4", "#FFA500", "#8B4513"};
     String[] numberText = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
+    String[] shapeText = {"Rectangle", "Square", "Oval", "Circle", "Semi-circle", "Diamond", "Heart", "Arrow", "Triangle", "Star"};
+    int[] shapeCode = {R.drawable.shape1, R.drawable.shape2, R.drawable.shape3, R.drawable.shape4, R.drawable.shape5, R.drawable.shape6, R.drawable.shape7, R.drawable.shape8, R.drawable.shape9, R.drawable.shape10};
     int[] numberCode = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     int[] colorRank = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     int[] tmpRank = new int[COUNT];
-    int[] buttonID = {R.id.b1, R.id.b2, R.id.b3, R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.b10};
+    int[] buttonID = new int[COUNT];
+    int[] layoutID = {R.id.b1, R.id.b2, R.id.b3, R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.b10};
     Button[] colorButton = new Button[COUNT];
-
+    ImageView[] imageView = new ImageView[COUNT];
+    private SwipeRefreshLayout swipeContainer;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private int GAME_TYPE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +45,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         animScale = AnimationUtils.loadAnimation(this, R.anim.anim_scale);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle bundle = new Bundle();
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
         GAME_TYPE = getIntent().getExtras().getInt("TypeofGame", 0);
-
+        switch (GAME_TYPE) {
+            case 0:
+                this.setTitle(R.string.new_colours_game);
+                break;
+            case 1:
+                this.setTitle(R.string.new_numbers_game);
+                break;
+            case 2:
+                this.setTitle(R.string.new_shapes_game);
+                break;
+        }
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -53,13 +65,51 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
             }
         });
+
+        for (int i = 0; i < COUNT; i++) {
+            LinearLayout ll = (LinearLayout) findViewById(layoutID[i]);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+
+            switch (GAME_TYPE) {
+                case 0: {
+                    colorButton[i] = new Button(this);
+                    colorButton[i].setId(i);
+                    ll.addView(colorButton[i], params);
+                    colorButton[i].setOnClickListener(this);
+                    break;
+                }
+                case 1: {
+                    colorButton[i] = new Button(this);
+                    colorButton[i].setId(i);
+                    ll.addView(colorButton[i], params);
+                    colorButton[i].setOnClickListener(this);
+                    break;
+                }
+                case 2: {
+                    imageView[i] = new ImageView(this);
+                    imageView[i].setId(i);
+                    ll.addView(imageView[i], params);
+                    imageView[i].setOnClickListener(this);
+                    break;
+                }
+            }
+            buttonID[i] = i;
+        }
+
+
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 shuffleColors();
                 swipeContainer.setRefreshing(false);
-
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Refresh");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Refresh");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Swipe");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             }
         });
 
@@ -92,50 +142,58 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         int i = v.getId();
         v.startAnimation(animScale);
-        Log.d(TAG, "onClick: game type" + GAME_TYPE);
+        int clickid = 0;
+        for (int j = 0; j < COUNT; j++) {
+            if (buttonID[j] == i) {
+                clickid = j;
+                break;
+            }
+        }
+        int pos = 0;
 
-        switch (i) {
+        switch (layoutID[clickid]) {
             case R.id.b1:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[0]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[0]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 0;
                 break;
             case R.id.b2:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[1]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[1]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 1;
                 break;
             case R.id.b3:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[2]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[2]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 2;
                 break;
             case R.id.b4:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[3]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[3]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 3;
                 break;
             case R.id.b5:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[4]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[4]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 4;
                 break;
             case R.id.b6:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[5]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[5]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 5;
                 break;
             case R.id.b7:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[6]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[6]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 6;
                 break;
             case R.id.b8:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[7]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[7]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 7;
                 break;
             case R.id.b9:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[8]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[8]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 8;
                 break;
             case R.id.b10:
-                if (GAME_TYPE == 0) t1.speak(colorText[tmpRank[9]], TextToSpeech.QUEUE_FLUSH, null);
-                else t1.speak(numberText[tmpRank[9]], TextToSpeech.QUEUE_FLUSH, null);
+                pos = 9;
                 break;
+        }
 
+        switch (GAME_TYPE) {
+            case 0:
+                t1.speak(colorText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                break;
+            case 1:
+                t1.speak(numberText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                break;
+            case 2:
+                t1.speak(shapeText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                break;
 
         }
 
@@ -153,11 +211,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void shuffleColors() {
-        Log.d(TAG, "shuffleColors: game type" + GAME_TYPE);
         setRandomizedArray();
         for (int i = 0; i < COUNT; i++) {
-            colorButton[i] = (Button) findViewById(buttonID[i]);
-            colorButton[i].setOnClickListener(this);
+
+
             switch (GAME_TYPE) {
                 case 0: {
                     colorButton[i].setBackgroundResource(R.drawable.customborder1);
@@ -173,13 +230,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     colorButton[i].setTextAppearance(this, android.R.style.TextAppearance_Large);
                     break;
                 }
+                case 2: {
+                    imageView[i].setImageResource(shapeCode[tmpRank[i]]);
+                    imageView[i].setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
+                    break;
+
+                }
             }
-            colorButton[i].setElevation(18);
-            colorButton[i].setTranslationZ(12);
-
         }
     }
-
 
 }

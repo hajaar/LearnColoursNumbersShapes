@@ -29,7 +29,7 @@ public class HomeScreenActivity extends Activity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         final Intent coloursintent = new Intent(this, MainActivity.class);
         final Intent numbersintent = new Intent(this, MainActivity.class);
-
+        final Intent shapesintent = new Intent(this, MainActivity.class);
 
         final Button button1 = (Button) findViewById(R.id.new_colours_game);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +80,19 @@ public class HomeScreenActivity extends Activity {
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 numbersintent.putExtra("TypeofGame", 1);
                 startActivity(numbersintent);
+            }
+        });
+        final Button button2 = (Button) findViewById(R.id.new_shapes_game);
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("ButtonClick", "Patterns Game");
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Shapes");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Shapes");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                shapesintent.putExtra("TypeofGame", 2);
+                startActivity(shapesintent);
             }
         });
 
