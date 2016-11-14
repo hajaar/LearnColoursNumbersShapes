@@ -15,10 +15,6 @@
 
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,14 +65,29 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/new_shapes_game"
+                android:id="@+id/new_birds_game"
                 style="@style/LabelText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/skipcustomborder"
                 android:gravity="center"
-                android:text="@string/new_shapes_game"/>
+                android:text="@string/new_birds_game"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/action_feedback"
+                style="@style/LabelText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/skipcustomborder"
+                android:gravity="center"
+                android:text="@string/action_feedback"/>
 
             <View
                 android:layout_width="match_parent"
@@ -98,20 +109,48 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/action_feedback"
+                android:id="@+id/new_shapes_game"
                 style="@style/LabelText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/skipcustomborder"
                 android:gravity="center"
-                android:text="@string/action_feedback"/>
+                android:text="@string/new_shapes_game"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/new_animals_game"
+                style="@style/LabelText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/skipcustomborder"
+                android:gravity="center"
+                android:text="@string/new_animals_game"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
+            <Button
+                android:id="@+id/new_fruits_game"
+                style="@style/LabelText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/skipcustomborder"
+                android:gravity="center"
+                android:text="@string/new_fruits_game"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
             <Button
                 android:id="@+id/exit_game"
                 style="@style/LabelText"

@@ -13,13 +13,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 public class HomeScreenActivity extends Activity {
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +23,9 @@ public class HomeScreenActivity extends Activity {
         final Intent coloursintent = new Intent(this, MainActivity.class);
         final Intent numbersintent = new Intent(this, MainActivity.class);
         final Intent shapesintent = new Intent(this, MainActivity.class);
+        final Intent animalsintent = new Intent(this, MainActivity.class);
+        final Intent birdsintent = new Intent(this, MainActivity.class);
+        final Intent fruitsintent = new Intent(this, MainActivity.class);
 
         final Button button1 = (Button) findViewById(R.id.new_colours_game);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +63,13 @@ public class HomeScreenActivity extends Activity {
                         "mailto", "kartik.narayanan@gmail.com", null));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Maths Play for Kids");
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
+
             }
         });
         final Button button5 = (Button) findViewById(R.id.new_numbers_game);
         button5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("ButtonClick", "Patterns Game");
+                Log.d("ButtonClick", "Numbers Game");
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Numbers");
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Numbers");
@@ -80,12 +77,13 @@ public class HomeScreenActivity extends Activity {
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 numbersintent.putExtra("TypeofGame", 1);
                 startActivity(numbersintent);
+
             }
         });
         final Button button2 = (Button) findViewById(R.id.new_shapes_game);
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("ButtonClick", "Patterns Game");
+                Log.d("ButtonClick", "Shapes Game");
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Shapes");
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Shapes");
@@ -93,8 +91,52 @@ public class HomeScreenActivity extends Activity {
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 shapesintent.putExtra("TypeofGame", 2);
                 startActivity(shapesintent);
+
             }
         });
+        final Button button6 = (Button) findViewById(R.id.new_animals_game);
+        button6.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("ButtonClick", "Animals Game");
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Animals");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Animals");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                animalsintent.putExtra("TypeofGame", 3);
+                startActivity(animalsintent);
+
+            }
+        });
+        final Button button7 = (Button) findViewById(R.id.new_birds_game);
+        button7.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("ButtonClick", "Birds Game");
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Birds");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Birds");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Birds");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                birdsintent.putExtra("TypeofGame", 4);
+                startActivity(birdsintent);
+
+            }
+        });
+        final Button button8 = (Button) findViewById(R.id.new_fruits_game);
+        button8.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("ButtonClick", "Fruits Game");
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Fruits");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Fruits");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Fruits");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                fruitsintent.putExtra("TypeofGame", 5);
+                startActivity(fruitsintent);
+
+            }
+        });
+
 
     }
 
