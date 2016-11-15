@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Learn Colours</string>
     <string name="title_activity_main">Colours</string>
-    <string name="new_colours_game">Identify Colours</string>
-    <string name="new_numbers_game">Identify Numbers</string>
+    <string name="new_colours_game">Colours</string>
+    <string name="new_numbers_game">Numbers</string>
     <string name="action_feedback">Feedback</string>
     <string name="exit_game">Exit</string>
-    <string name="new_shapes_game">Identify Shapes</string>
-    <string name="new_animals_game">Identify Animals</string>
-    <string name="new_birds_game">Identify Birds</string>
-    <string name="new_fruits_game">Identify Fruits and Veggies</string>
+    <string name="new_shapes_game">Shapes</string>
+    <string name="new_animals_game">Animals</string>
+    <string name="new_birds_game">Birds</string>
+    <string name="new_fruits_game">Fruits and Veggies</string>
 </resources>
