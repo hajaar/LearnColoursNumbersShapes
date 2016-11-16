@@ -3,7 +3,6 @@ package com.skva.learncolours;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -17,8 +16,6 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 
-import java.util.Locale;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +26,6 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "GameFragment";
     int GAME_TYPE = 0;
     Animation animScale;
-    TextToSpeech t1;
     String[] colorText = {"Black", "Blue", "Brown", "Gray", "Green", "Pink", "Purple", "Red", "White", "Yellow"};
     int[] colorCode = {R.drawable.black, R.drawable.blue, R.drawable.brown, R.drawable.gray, R.drawable.green, R.drawable.pink, R.drawable.purple, R.drawable.red, R.drawable.white, R.drawable.yellow};
 
@@ -131,34 +127,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public void onPause() {
 
-        if (t1 != null) {
-            t1.stop();
-            t1.shutdown();
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onDestroy() {
-
-        t1.shutdown();
-        super.onDestroy();
-    }
 
     public void onClick(View v) {
         int i = v.getId();
@@ -207,22 +176,27 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
         switch (GAME_TYPE) {
             case 0:
-                t1.speak(colorText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
-                break;
+                ((MainActivity) getActivity()).speakOut(colorText[tmpRank[pos]]);
+                // break;
             case 1:
-                t1.speak(numberText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                ((MainActivity) getActivity()).speakOut(numberText[tmpRank[pos]]);
+                //t1.speak(numberText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case 2:
-                t1.speak(shapeText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                ((MainActivity) getActivity()).speakOut(shapeText[tmpRank[pos]]);
+                //t1.speak(shapeText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case 3:
-                t1.speak(animalText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                ((MainActivity) getActivity()).speakOut(animalText[tmpRank[pos]]);
+                // t1.speak(animalText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case 4:
-                t1.speak(birdsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                ((MainActivity) getActivity()).speakOut(birdsText[tmpRank[pos]]);
+                // t1.speak(birdsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case 5:
-                t1.speak(fruitsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                ((MainActivity) getActivity()).speakOut(fruitsText[tmpRank[pos]]);
+                //t1.speak(fruitsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
                 break;
         }
 
@@ -309,20 +283,8 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
-                @Override
-                public void onInit(int status) {
-                    if (status != TextToSpeech.ERROR) {
-                        t1.setLanguage(Locale.UK);
-                    }
-                }
-            });
-            Log.d(TAG, "background");
-            /*try {
-                Thread.sleep(3000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
+
+
             return null;
         }
     }

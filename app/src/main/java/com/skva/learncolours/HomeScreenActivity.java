@@ -16,8 +16,6 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import java.util.HashMap;
-
 public class HomeScreenActivity extends Activity implements View.OnClickListener {
     final static int COUNT = 6;
     ImageView[] imageView = new ImageView[COUNT];
@@ -58,35 +56,22 @@ public class HomeScreenActivity extends Activity implements View.OnClickListener
         t.start();
 
 
-
-        HashMap<String, Integer> file_maps = new HashMap<>();
-        file_maps.put(getString(R.string.new_colours_game), R.drawable.green);
-        file_maps.put(getString(R.string.new_numbers_game), R.drawable.number1);
-        file_maps.put(getString(R.string.new_shapes_game), R.drawable.shape1);
-        file_maps.put(getString(R.string.new_animals_game), R.drawable.cat);
-        file_maps.put(getString(R.string.new_birds_game), R.drawable.parrot);
-        file_maps.put(getString(R.string.new_fruits_game), R.drawable.tomato);
-        String gametype = "TypeOfGame";
-        int TypeofGame = 0;
-        if (gametype == getString(R.string.new_colours_game)) TypeofGame = 0;
-        if (gametype == getString(R.string.new_numbers_game)) TypeofGame = 1;
-        if (gametype == getString(R.string.new_shapes_game)) TypeofGame = 2;
-        if (gametype == getString(R.string.new_animals_game)) TypeofGame = 3;
-        if (gametype == getString(R.string.new_birds_game)) TypeofGame = 4;
-        if (gametype == getString(R.string.new_fruits_game)) TypeofGame = 5;
-
         LinearLayout ll = (LinearLayout) findViewById(R.id.home_list);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1);
+        params.setMargins(8, 8, 0, 8);
         for (int i = 0; i < COUNT; i++) {
+
             imageView[i] = new ImageView(this);
             imageView[i].setId(i);
             ll.addView(imageView[i], params);
             imageView[i].setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView[i].setPadding(4, 4, 0, 4);
+
             imageView[i].setOnClickListener(this);
-            int imageResource = R.drawable.blue;
-            Glide.with(this).load(imageResource).into(imageView[i]);
+
+            Glide.with(this).load(getResources().getIdentifier("launcher" + i, "drawable", this.getPackageName())).into(imageView[i]);
 
         }
 
