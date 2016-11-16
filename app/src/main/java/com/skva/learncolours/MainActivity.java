@@ -2,18 +2,20 @@ package com.skva.learncolours;
 
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Locale;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements HomeScreenFragment.OnItemSelectedListener {
 
     TextToSpeech t1;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private int GAME_TYPE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +24,24 @@ public class MainActivity extends FragmentActivity {
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        GAME_TYPE = getIntent().getExtras().getInt("TypeofGame", 0);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.gameframe, GameFragment.newInstance(GAME_TYPE), "Game" + GAME_TYPE)
-                    .commit();
+        if (savedInstanceState != null) {
+            getFragmentManager().executePendingTransactions();
+            Fragment fragmentById = getSupportFragmentManager().
+                    findFragmentById(R.id.rootframe);
+            if (fragmentById != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .remove(fragmentById).commit();
+            }
         }
-
+        HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rootframe, homeScreenFragment).commit();
 
     }
 
 
     public void speakOut(String msg) {
+        Log.d("Main", msg);
         t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
     }
 
@@ -65,5 +72,18 @@ public class MainActivity extends FragmentActivity {
 
         t1.shutdown();
         super.onDestroy();
+    }
+
+    @Override
+    public void onGameSelected(Integer gametype) {
+        Log.d("Main", "" + gametype);
+        GameFragment newFragment = new GameFragment();
+        Bundle args = new Bundle();
+        args.putInt("GAME_TYPE", gametype);
+        newFragment.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.rootframe, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

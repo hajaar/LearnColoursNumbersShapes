@@ -1,7 +1,6 @@
 package com.skva.learncolours;
 
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,7 +23,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
     private static final int COUNT = 10;
     private static final String TAG = "GameFragment";
-    int GAME_TYPE = 0;
+    static int GAME_TYPE = 0;
     Animation animScale;
     String[] colorText = {"Black", "Blue", "Brown", "Gray", "Green", "Pink", "Purple", "Red", "White", "Yellow"};
     int[] colorCode = {R.drawable.black, R.drawable.blue, R.drawable.brown, R.drawable.gray, R.drawable.green, R.drawable.pink, R.drawable.purple, R.drawable.red, R.drawable.white, R.drawable.yellow};
@@ -57,7 +56,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         GameFragment f = new GameFragment();
         Bundle b = new Bundle();
         b.putInt("GAME_TYPE", game_type);
-
+        GAME_TYPE = game_type;
         f.setArguments(b);
 
         return f;
@@ -72,9 +71,8 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        layout = (LinearLayout) getActivity().findViewById(R.id.progressbar_view);
-        gamelayout = (LinearLayout) getActivity().findViewById(R.id.game_layout);
-        new Task().execute();
+
+
         animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
         for (int i = 0; i < COUNT; i++) {
             LinearLayout ll = (LinearLayout) getActivity().findViewById(layoutID[i]);
@@ -176,8 +174,9 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
         switch (GAME_TYPE) {
             case 0:
+                Log.d("game", "here");
                 ((MainActivity) getActivity()).speakOut(colorText[tmpRank[pos]]);
-                // break;
+                break;
             case 1:
                 ((MainActivity) getActivity()).speakOut(numberText[tmpRank[pos]]);
                 //t1.speak(numberText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
@@ -264,30 +263,6 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    class Task extends AsyncTask<String, Integer, Boolean> {
-        @Override
-        protected void onPreExecute() {
-            layout.setVisibility(View.VISIBLE);
-            gamelayout.setVisibility(View.GONE);
-            Log.d(TAG, "pre");
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            layout.setVisibility(View.GONE);
-            gamelayout.setVisibility(View.VISIBLE);
-            Log.d(TAG, "post");
-            super.onPostExecute(result);
-        }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-
-
-            return null;
-        }
-    }
 
 
 }
