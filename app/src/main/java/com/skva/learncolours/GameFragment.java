@@ -1,12 +1,12 @@
 package com.skva.learncolours;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.Locale;
 
@@ -48,6 +49,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     int[] buttonID = new int[COUNT];
     int[] layoutID = {R.id.b1, R.id.b2, R.id.b3, R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.b10};
     ImageView[] imageView = new ImageView[COUNT];
+    LinearLayout layout, gamelayout;
     private SwipeRefreshLayout swipeContainer;
 
     public GameFragment() {
@@ -74,14 +76,9 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
-                }
-            }
-        });
+        layout = (LinearLayout) getActivity().findViewById(R.id.progressbar_view);
+        gamelayout = (LinearLayout) getActivity().findViewById(R.id.game_layout);
+        new Task().execute();
         animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
         for (int i = 0; i < COUNT; i++) {
             LinearLayout ll = (LinearLayout) getActivity().findViewById(layoutID[i]);
@@ -135,6 +132,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     }
 
     public void onPause() {
+
         if (t1 != null) {
             t1.stop();
             t1.shutdown();
@@ -153,6 +151,13 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+
+        t1.shutdown();
+        super.onDestroy();
     }
 
     public void onClick(View v) {
@@ -236,7 +241,6 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     private void shuffleColors() {
         setRandomizedArray();
         GAME_TYPE = getArguments().getInt("GAME_TYPE");
-        Toast.makeText(getContext(), "" + GAME_TYPE, Toast.LENGTH_SHORT).show();
         int imageResource = 0;
         for (int i = 0; i < COUNT; i++) {
 
@@ -282,8 +286,46 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 }
 
             }
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imageResource);
-            imageView[i].setImageBitmap(bitmap);
+            Glide.with(this).load(imageResource).into(imageView[i]);
         }
     }
+
+    class Task extends AsyncTask<String, Integer, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            layout.setVisibility(View.VISIBLE);
+            gamelayout.setVisibility(View.GONE);
+            Log.d(TAG, "pre");
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            layout.setVisibility(View.GONE);
+            gamelayout.setVisibility(View.VISIBLE);
+            Log.d(TAG, "post");
+            super.onPostExecute(result);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status != TextToSpeech.ERROR) {
+                        t1.setLanguage(Locale.UK);
+                    }
+                }
+            });
+            Log.d(TAG, "background");
+            /*try {
+                Thread.sleep(3000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }*/
+            return null;
+        }
+    }
+
+
 }
