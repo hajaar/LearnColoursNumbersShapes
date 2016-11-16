@@ -11,11 +11,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-public class HomeScreenActivity extends Activity {
-    private FirebaseAnalytics mFirebaseAnalytics;
+import java.util.HashMap;
 
+public class HomeScreenActivity extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private SliderLayout mDemoSlider;
 
 
     @Override
@@ -51,40 +58,42 @@ public class HomeScreenActivity extends Activity {
             }
         });
         t.start();
+        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
+
+        HashMap<String, Integer> file_maps = new HashMap<>();
+        file_maps.put(getString(R.string.new_colours_game), R.drawable.green);
+        file_maps.put(getString(R.string.new_numbers_game), R.drawable.number1);
+        file_maps.put(getString(R.string.new_shapes_game), R.drawable.shape1);
+        file_maps.put(getString(R.string.new_animals_game), R.drawable.cat);
+        file_maps.put(getString(R.string.new_birds_game), R.drawable.parrot);
+        file_maps.put(getString(R.string.new_fruits_game), R.drawable.tomato);
+
+        for (String name : file_maps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(this);
+            // initialize a SliderLayout
+            textSliderView
+                    .description(name)
+                    .image(file_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.CenterInside)
+                    .setOnSliderClickListener(this);
+
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("TypeOfGame", name);
+
+            mDemoSlider.addSlider(textSliderView);
+        }
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.CubeIn);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+        mDemoSlider.setDuration(4000);
+        mDemoSlider.addOnPageChangeListener(this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        setGameButtonAttributes(R.id.new_fruits_game, 5, getString(R.string.new_fruits_game));
-        setGameButtonAttributes(R.id.new_birds_game, 4, getString(R.string.new_birds_game));
-        setGameButtonAttributes(R.id.new_animals_game, 3, getString(R.string.new_animals_game));
-        setGameButtonAttributes(R.id.new_shapes_game, 2, getString(R.string.new_shapes_game));
-        setGameButtonAttributes(R.id.new_numbers_game, 1, getString(R.string.new_numbers_game));
-        setGameButtonAttributes(R.id.new_colours_game, 0, getString(R.string.new_colours_game));
-        setEmailButtonAttributes(R.id.action_feedback);
-        setExitButtonAttributes(R.id.exit_game);
+
     }
 
-    private void setGameButtonAttributes(int button_id, final int TypeofGame, final String game_name) {
-        Button button = (Button) findViewById(button_id);
-        final Intent intent = new Intent(this, MainActivity.class);
-        final Typeface font = Typeface.createFromAsset(getAssets(), "ComicRelief.ttf");
-        button.setTypeface(font);
-        button.setTransformationMethod(null);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("ButtonClick", game_name);
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, game_name);
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game_name);
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
-                intent.putExtra("TypeofGame", TypeofGame);
-                startActivity(intent);
-
-            }
-        });
-    }
 
     private void setEmailButtonAttributes(int button_id) {
         Button button = (Button) findViewById(button_id);
@@ -123,6 +132,40 @@ public class HomeScreenActivity extends Activity {
         });
     }
 
+    @Override
+    protected void onStop() {
+        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
+        mDemoSlider.stopAutoCycle();
+        super.onStop();
+    }
+
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+        String gametype = slider.getBundle().getString("TypeOfGame");
+        int TypeofGame = 0;
+        if (gametype == getString(R.string.new_colours_game)) TypeofGame = 0;
+        if (gametype == getString(R.string.new_numbers_game)) TypeofGame = 1;
+        if (gametype == getString(R.string.new_shapes_game)) TypeofGame = 2;
+        if (gametype == getString(R.string.new_animals_game)) TypeofGame = 3;
+        if (gametype == getString(R.string.new_birds_game)) TypeofGame = 4;
+        if (gametype == getString(R.string.new_fruits_game)) TypeofGame = 5;
+        final Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("TypeofGame", TypeofGame);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.d("Slider Demo", "Page Changed: " + position);
+    }
 
 
 }
