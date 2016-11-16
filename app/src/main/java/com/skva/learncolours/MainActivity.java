@@ -82,6 +82,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         args.putInt("GAME_TYPE", gametype);
         newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         transaction.replace(R.id.rootframe, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
