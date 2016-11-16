@@ -10,20 +10,18 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.bumptech.glide.Glide;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.HashMap;
 
-public class HomeScreenActivity extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class HomeScreenActivity extends Activity implements View.OnClickListener {
+    final static int COUNT = 6;
+    ImageView[] imageView = new ImageView[COUNT];
     private FirebaseAnalytics mFirebaseAnalytics;
-    private SliderLayout mDemoSlider;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class HomeScreenActivity extends Activity implements BaseSliderView.OnSli
             }
         });
         t.start();
-        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+
 
 
         HashMap<String, Integer> file_maps = new HashMap<>();
@@ -68,28 +66,29 @@ public class HomeScreenActivity extends Activity implements BaseSliderView.OnSli
         file_maps.put(getString(R.string.new_animals_game), R.drawable.cat);
         file_maps.put(getString(R.string.new_birds_game), R.drawable.parrot);
         file_maps.put(getString(R.string.new_fruits_game), R.drawable.tomato);
+        String gametype = "TypeOfGame";
+        int TypeofGame = 0;
+        if (gametype == getString(R.string.new_colours_game)) TypeofGame = 0;
+        if (gametype == getString(R.string.new_numbers_game)) TypeofGame = 1;
+        if (gametype == getString(R.string.new_shapes_game)) TypeofGame = 2;
+        if (gametype == getString(R.string.new_animals_game)) TypeofGame = 3;
+        if (gametype == getString(R.string.new_birds_game)) TypeofGame = 4;
+        if (gametype == getString(R.string.new_fruits_game)) TypeofGame = 5;
 
-        for (String name : file_maps.keySet()) {
-            TextSliderView textSliderView = new TextSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.CenterInside)
-                    .setOnSliderClickListener(this);
+        LinearLayout ll = (LinearLayout) findViewById(R.id.home_list);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.MATCH_PARENT, 1);
+        for (int i = 0; i < COUNT; i++) {
+            imageView[i] = new ImageView(this);
+            imageView[i].setId(i);
+            ll.addView(imageView[i], params);
+            imageView[i].setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView[i].setOnClickListener(this);
+            int imageResource = R.drawable.blue;
+            Glide.with(this).load(imageResource).into(imageView[i]);
 
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("TypeOfGame", name);
-
-            mDemoSlider.addSlider(textSliderView);
         }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.CubeIn);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(4000);
-        mDemoSlider.addOnPageChangeListener(this);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
     }
@@ -132,39 +131,12 @@ public class HomeScreenActivity extends Activity implements BaseSliderView.OnSli
         });
     }
 
-    @Override
-    protected void onStop() {
-        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
-        mDemoSlider.stopAutoCycle();
-        super.onStop();
-    }
 
-    @Override
-    public void onSliderClick(BaseSliderView slider) {
-        String gametype = slider.getBundle().getString("TypeOfGame");
-        int TypeofGame = 0;
-        if (gametype == getString(R.string.new_colours_game)) TypeofGame = 0;
-        if (gametype == getString(R.string.new_numbers_game)) TypeofGame = 1;
-        if (gametype == getString(R.string.new_shapes_game)) TypeofGame = 2;
-        if (gametype == getString(R.string.new_animals_game)) TypeofGame = 3;
-        if (gametype == getString(R.string.new_birds_game)) TypeofGame = 4;
-        if (gametype == getString(R.string.new_fruits_game)) TypeofGame = 5;
+    public void onClick(View v) {
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("TypeofGame", TypeofGame);
+        intent.putExtra("TypeofGame", v.getId());
         startActivity(intent);
-    }
 
-    @Override
-    public void onPageScrollStateChanged(int state) {
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        Log.d("Slider Demo", "Page Changed: " + position);
     }
 
 
