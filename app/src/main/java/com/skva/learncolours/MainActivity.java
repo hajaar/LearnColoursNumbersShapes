@@ -36,7 +36,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         }
         HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rootframe, homeScreenFragment).commit();
+                .replace(R.id.rootframe, homeScreenFragment, "HOME").addToBackStack("HOME").commit();
 
 
     }
@@ -81,27 +81,17 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     @Override
     public void onGameSelected(Integer gametype) {
         Log.d("Main", "" + gametype);
-        if (gametype != -1) {
+
         GameFragment newFragment = new GameFragment();
         Bundle args = new Bundle();
         args.putInt("GAME_TYPE", gametype);
         newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-        transaction.replace(R.id.rootframe, newFragment);
-        transaction.addToBackStack(null);
+        transaction.replace(R.id.rootframe, newFragment, "GAME");
+        transaction.addToBackStack("GAME");
             transaction.commit();
-        } else {
-            HomeScreenFragment newFragment = new HomeScreenFragment();
-            Bundle args = new Bundle();
-            args.putInt("GAME_TYPE", gametype);
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
-            transaction.replace(R.id.rootframe, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
+
     }
 
     @Override
@@ -119,7 +109,9 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
             case SimpleGestureFilter.SWIPE_RIGHT:
                 str = "Swipe Right";
-                onGameSelected(-1);
+                if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                    getSupportFragmentManager().popBackStack();
+                }
                 break;
             case SimpleGestureFilter.SWIPE_LEFT:
                 str = "Swipe Left";
