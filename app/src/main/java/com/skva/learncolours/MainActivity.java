@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.Locale;
 
@@ -16,11 +18,19 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
     TextToSpeech t1;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private RefWatcher refWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (LeakCanary.isInAnalyzerProcess(getApplication())) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        refWatcher = LeakCanary.install(getApplication());
+        // Normal app init code...
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -36,21 +46,14 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootframe, homeScreenFragment).commit();
-        t1 = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.ENGLISH);
-                }
-            }
-        });
-        speakOut("Text to Speech is ready");
+
+
     }
 
 
     public void speakOut(String msg) {
         Log.d("Main", msg);
-        t1.speak(msg, TextToSpeech.QUEUE_ADD, null);
+        t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     public void onPause() {
@@ -80,6 +83,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     public void onDestroy() {
 
         t1.shutdown();
+        mustDie(this);
         super.onDestroy();
     }
 
@@ -96,4 +100,10 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    public void mustDie(Object object) {
+        if (refWatcher != null)
+            refWatcher.watch(object);
+    }
+
 }

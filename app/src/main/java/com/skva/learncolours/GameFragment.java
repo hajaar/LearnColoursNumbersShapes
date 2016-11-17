@@ -263,6 +263,10 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((MainActivity) getActivity()).mustDie(this);
 
-
+    }
 }

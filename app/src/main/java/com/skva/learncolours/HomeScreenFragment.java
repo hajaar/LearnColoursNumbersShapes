@@ -84,15 +84,17 @@ public class HomeScreenFragment extends Fragment {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1);
-        params.setMargins(8, 8, 0, 8);
+        params.setMargins(16, 8, 16, 8);
         for (int i = 0; i < COUNT; i++) {
 
             imageView[i] = new ImageView(getActivity());
             imageView[i].setId(i);
-            ll.addView(imageView[i], params);
-            imageView[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView[i].setPadding(4, 4, 0, 4);
 
+
+            imageView[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView[i].setPadding(4, 4, 4, 4);
+            imageView[i].setBackground(getResources().getDrawable(R.drawable.skipcustomborder));
+            ll.addView(imageView[i], params);
             imageView[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -118,7 +120,12 @@ public class HomeScreenFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((MainActivity) getActivity()).mustDie(this);
 
+    }
     public interface OnItemSelectedListener {
         void onGameSelected(Integer gametype);
     }
