@@ -90,7 +90,7 @@ public class HomeScreenFragment extends Fragment {
             imageView[i] = new ImageView(getActivity());
             imageView[i].setId(i);
             ll.addView(imageView[i], params);
-            imageView[i].setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView[i].setPadding(4, 4, 0, 4);
 
             imageView[i].setOnClickListener(new View.OnClickListener() {

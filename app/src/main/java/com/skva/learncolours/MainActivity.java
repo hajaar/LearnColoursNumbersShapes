@@ -36,13 +36,21 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootframe, homeScreenFragment).commit();
-
+        t1 = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.ENGLISH);
+                }
+            }
+        });
+        speakOut("Text to Speech is ready");
     }
 
 
     public void speakOut(String msg) {
         Log.d("Main", msg);
-        t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
+        t1.speak(msg, TextToSpeech.QUEUE_ADD, null);
     }
 
     public void onPause() {
@@ -61,10 +69,11 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
+                    t1.setLanguage(Locale.ENGLISH);
                 }
             }
         });
+
     }
 
     @Override

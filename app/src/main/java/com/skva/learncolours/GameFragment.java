@@ -217,7 +217,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         int imageResource = 0;
         for (int i = 0; i < COUNT; i++) {
 
-            imageView[i].setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
             switch (GAME_TYPE) {
                 case 0: {
                     imageResource = (colorCode[tmpRank[i]]);
