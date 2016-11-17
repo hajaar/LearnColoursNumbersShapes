@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +24,14 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeScreenFragment extends Fragment {
+public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapter.OnItemClickListener {
     final static int COUNT = 6;
     ImageView[] imageView = new ImageView[COUNT];
     private FirebaseAnalytics mFirebaseAnalytics;
     private OnItemSelectedListener listener;
+    private RecyclerView myRecyclerView;
+    private LinearLayoutManager mLinearLayoutManager;
+    private MyRecyclerViewAdapter myRecyclerViewAdapter;
 
     public HomeScreenFragment() {
         // Required empty public constructor
@@ -93,8 +98,9 @@ public class HomeScreenFragment extends Fragment {
 
             imageView[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView[i].setPadding(4, 4, 4, 4);
-            imageView[i].setBackground(getResources().getDrawable(R.drawable.skipcustomborder));
+            //imageView[i].setBackground(getResources().getDrawable(R.drawable.skipcustomborder));
             ll.addView(imageView[i], params);
+
             imageView[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -106,7 +112,14 @@ public class HomeScreenFragment extends Fragment {
             Glide.with(this).load(getResources().getIdentifier("launcher" + i, "drawable", getActivity().getPackageName())).into(imageView[i]);
 
         }
+        myRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
 
+        mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext());
+        myRecyclerView.setAdapter(myRecyclerViewAdapter);
+        myRecyclerView.setLayoutManager(mLinearLayoutManager);
+        myRecyclerViewAdapter.setOnItemClickListener(this);
+        prepareItems();
     }
 
     @Override
@@ -123,9 +136,30 @@ public class HomeScreenFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((MainActivity) getActivity()).mustDie(this);
+
 
     }
+
+    @Override
+    public void onItemClick(MyRecyclerViewAdapter.ItemHolder item, int position) {
+        listener.onGameSelected(position);
+    }
+
+    private void prepareItems() {
+
+        for (int i = 0; i < COUNT; i++) {
+
+
+            myRecyclerViewAdapter.add(
+                    myRecyclerViewAdapter.getItemCount(),
+                    "R.drawable.launcher" + i,
+                    getResources().getIdentifier("launcher" + i, "drawable", getActivity().getPackageName()));
+
+
+        }
+    }
+
+
     public interface OnItemSelectedListener {
         void onGameSelected(Integer gametype);
     }

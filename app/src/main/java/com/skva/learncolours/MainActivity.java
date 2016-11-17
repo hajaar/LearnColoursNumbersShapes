@@ -8,8 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 
 import java.util.Locale;
 
@@ -18,19 +16,11 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
     TextToSpeech t1;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private RefWatcher refWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (LeakCanary.isInAnalyzerProcess(getApplication())) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        refWatcher = LeakCanary.install(getApplication());
-        // Normal app init code...
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -72,7 +62,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.ENGLISH);
+                    t1.setLanguage(Locale.UK);
                 }
             }
         });
@@ -83,7 +73,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     public void onDestroy() {
 
         t1.shutdown();
-        mustDie(this);
+
         super.onDestroy();
     }
 
@@ -99,11 +89,6 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         transaction.replace(R.id.rootframe, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    public void mustDie(Object object) {
-        if (refWatcher != null)
-            refWatcher.watch(object);
     }
 
 }
