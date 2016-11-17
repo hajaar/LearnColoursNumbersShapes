@@ -200,7 +200,6 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         }
 
     }
-
     private void setRandomizedArray() {
         for (int i = 0; i < COUNT; i++) {
             int j = (int) Math.floor(Math.random() * (i + 1));
