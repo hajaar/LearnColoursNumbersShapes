@@ -27,6 +27,12 @@
             android:background="@drawable/skipcustomborder"
             android:text="@string/action_feedback"/>
 
+        <Switch
+            android:id="@+id/speech_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Speech"/>
+
     </LinearLayout>
 
     <FrameLayout android:id="@+id/rootframe"

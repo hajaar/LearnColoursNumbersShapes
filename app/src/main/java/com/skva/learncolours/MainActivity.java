@@ -1,8 +1,10 @@
 package com.skva.learncolours;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +13,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -22,6 +26,9 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     private SimpleGestureFilter detector;
     private FirebaseAnalytics mFirebaseAnalytics;
     private Button button1, button2;
+    private Boolean shouldIspeak = true;
+    private Switch speech_switch;
+    private SharedPreferences getPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,21 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootframe, homeScreenFragment, "HOME").addToBackStack("HOME").commit();
+        getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        shouldIspeak = getPrefs.getBoolean("shouldIspeak", true);
+        speech_switch = (Switch) findViewById(R.id.speech_switch);
+        speech_switch.setChecked(shouldIspeak);
+        speech_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor e = getPrefs.edit();
+                shouldIspeak = speech_switch.isChecked();
+                e.putBoolean("shouldIspeak", shouldIspeak);
+                e.apply();
+            }
+        });
+
 
         button1 = (Button) findViewById(R.id.back);
         button1.setText("Exit");
@@ -53,6 +75,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                     getSupportFragmentManager().popBackStack();
                     button1.setText("Exit");
                 } else {
+
                     finishAndRemoveTask();
                 }
             }
@@ -74,7 +97,10 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
     public void speakOut(String msg) {
         Log.d("Main", msg);
-        t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
+        shouldIspeak = getPrefs.getBoolean("shouldIspeak", true);
+        if (shouldIspeak) {
+            t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
 
     public void onPause() {
@@ -117,6 +143,27 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         args.putInt("GAME_TYPE", gametype);
         newFragment.setArguments(args);
         button1.setText("Home");
+        switch (gametype) {
+            case 0:
+                speakOut(getString(R.string.new_colours_game));
+                break;
+            case 1:
+                speakOut(getString(R.string.new_numbers_game));
+                break;
+            case 2:
+                speakOut(getString(R.string.new_shapes_game));
+                break;
+            case 3:
+                speakOut(getString(R.string.new_animals_game));
+                break;
+            case 4:
+                speakOut(getString(R.string.new_birds_game));
+                break;
+            case 5:
+                speakOut(getString(R.string.new_fruits_game));
+                break;
+        }
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         transaction.replace(R.id.rootframe, newFragment, "GAME");
