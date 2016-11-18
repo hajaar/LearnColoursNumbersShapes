@@ -186,7 +186,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
             case SimpleGestureFilter.SWIPE_RIGHT:
                 str = "Swipe Right";
-                moveBack();
+                //moveBack();
                 break;
 
 

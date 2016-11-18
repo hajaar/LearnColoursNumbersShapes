@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -97,6 +99,10 @@ public class MyRecyclerViewAdapter extends
 
 
         public void setImageView(Drawable drawable) {
+            Animation animLeft =
+                    AnimationUtils.loadAnimation(parent.context,
+                            R.anim.appear);
+            imageView.setAnimation(animLeft);
             imageView.setImageDrawable(drawable);
         }
 
@@ -104,6 +110,7 @@ public class MyRecyclerViewAdapter extends
         public void onClick(View v) {
             final OnItemClickListener listener = parent.getOnItemClickListener();
             if (listener != null) {
+
                 listener.onItemClick(this, getPosition());
             }
         }

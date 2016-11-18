@@ -10,14 +10,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 
@@ -85,7 +84,7 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
         t.start();
 
 
-        LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.home_list);
+       /* LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.home_list);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1);
@@ -111,7 +110,7 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
 
             Glide.with(this).load(getResources().getIdentifier("launcher" + i, "drawable", getActivity().getPackageName())).into(imageView[i]);
 
-        }
+        }*/
         myRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
 
         mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -142,6 +141,10 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
 
     @Override
     public void onItemClick(MyRecyclerViewAdapter.ItemHolder item, int position) {
+        Animation animScale =
+                AnimationUtils.loadAnimation(getContext(),
+                        R.anim.anim_scale);
+        item.imageView.setAnimation(animScale);
         listener.onGameSelected(position);
     }
 

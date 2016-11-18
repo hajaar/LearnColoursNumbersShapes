@@ -74,6 +74,8 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
 
         animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
+
+
         for (int i = 0; i < COUNT; i++) {
             LinearLayout ll = (LinearLayout) getActivity().findViewById(layoutID[i]);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -83,31 +85,13 @@ public class GameFragment extends Fragment implements View.OnClickListener {
             imageView[i] = new ImageView(getContext());
             imageView[i].setId(i);
             ll.addView(imageView[i], params);
+
             imageView[i].setOnClickListener(this);
             buttonID[i] = i;
 
 
         }
-        switch (GAME_TYPE) {
-            case 0:
-                getActivity().setTitle(R.string.new_colours_game);
-                break;
-            case 1:
-                getActivity().setTitle(R.string.new_numbers_game);
-                break;
-            case 2:
-                getActivity().setTitle(R.string.new_shapes_game);
-                break;
-            case 3:
-                getActivity().setTitle(R.string.new_animals_game);
-                break;
-            case 4:
-                getActivity().setTitle(R.string.new_birds_game);
-                break;
-            case 5:
-                getActivity().setTitle(R.string.new_fruits_game);
-                break;
-        }
+
 
         swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
 
@@ -258,7 +242,10 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 }
 
             }
-            Glide.with(this).load(imageResource).into(imageView[i]);
+            Animation animLeft =
+                    AnimationUtils.loadAnimation(getContext(),
+                            R.anim.appear);
+            Glide.with(this).load(imageResource).animate(animLeft).into(imageView[i]);
         }
     }
 
