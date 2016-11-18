@@ -27,6 +27,8 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     Animation animScale;
     String[] colorText = {"Black", "Blue", "Brown", "Gray", "Green", "Pink", "Purple", "Red", "White", "Yellow"};
     int[] colorCode = {R.drawable.black, R.drawable.blue, R.drawable.brown, R.drawable.gray, R.drawable.green, R.drawable.pink, R.drawable.purple, R.drawable.red, R.drawable.white, R.drawable.yellow};
+    String[] underwaterText = {"Crab", "Dolphin", "Fish", "Jellyfish", "Octopus", "Seahorse", "Shark", "Starfish", "Turtle", "Whale"};
+    int[] underwaterCode = {R.drawable.crab, R.drawable.dolphin, R.drawable.fish, R.drawable.jellyfish, R.drawable.octopus, R.drawable.seahorse, R.drawable.shark, R.drawable.starfish, R.drawable.turtle, R.drawable.whale};
 
     String[] numberText = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
     String[] animalText = {"Cat", "Cow", "Deer", "Dog", "Goat", "Horse", "Kangaroo", "Lion", "Monkey", "Tiger"};
@@ -181,6 +183,10 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 ((MainActivity) getActivity()).speakOut(fruitsText[tmpRank[pos]]);
                 //t1.speak(fruitsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
                 break;
+            case 6:
+                ((MainActivity) getActivity()).speakOut(underwaterText[tmpRank[pos]]);
+                //t1.speak(fruitsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
+                break;
         }
 
     }
@@ -235,6 +241,12 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 }
                 case 5: {
                     imageResource = (fruitsCode[tmpRank[i]]);
+
+
+                    break;
+                }
+                case 6: {
+                    imageResource = (underwaterCode[tmpRank[i]]);
 
 
                     break;

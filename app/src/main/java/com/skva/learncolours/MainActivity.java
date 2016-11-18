@@ -153,6 +153,9 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             case 5:
                 speakOut(getString(R.string.new_fruits_game));
                 break;
+            case 6:
+                speakOut(getString(R.string.new_underwater_game));
+                break;
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -215,7 +218,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    speakOut("Bye Bye");
+                    speakOut("Bye, Bye!");
                     finishAndRemoveTask();
                 }
             }, 1000);

@@ -24,7 +24,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
  * A simple {@link Fragment} subclass.
  */
 public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapter.OnItemClickListener {
-    final static int COUNT = 6;
+    final static int COUNT = 7;
     ImageView[] imageView = new ImageView[COUNT];
     private FirebaseAnalytics mFirebaseAnalytics;
     private OnItemSelectedListener listener;
