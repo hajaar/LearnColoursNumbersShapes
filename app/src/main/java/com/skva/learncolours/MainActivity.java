@@ -32,22 +32,17 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     private SharedPreferences getPrefs;
     private Boolean isScreenSizeLarge = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        detector = new SimpleGestureFilter(this, this);
-        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
-        uiOptions &= ~View.SYSTEM_UI_FLAG_LOW_PROFILE;
-        uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
-        uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-        uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE;
-        uiOptions &= ~View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+        fullScreen();
         if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
             isScreenSizeLarge = true;
         }
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         if (savedInstanceState != null) {
             getFragmentManager().executePendingTransactions();
@@ -62,24 +57,8 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootframe, homeScreenFragment, "HOME").addToBackStack("HOME").commit();
 
-        if (isScreenSizeLarge) {
+        checkforSpeech();
 
-        }
-
-        getPrefs = PreferenceManager
-                .getDefaultSharedPreferences(this);
-        shouldIspeak = getPrefs.getBoolean("shouldIspeak", true);
-        speech_switch = (Switch) findViewById(R.id.speech_switch);
-        speech_switch.setChecked(shouldIspeak);
-        speech_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences.Editor e = getPrefs.edit();
-                shouldIspeak = speech_switch.isChecked();
-                e.putBoolean("shouldIspeak", shouldIspeak);
-                e.apply();
-            }
-        });
 
 
         button1 = (Button) findViewById(R.id.back);
@@ -134,6 +113,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 }
             }
         });
+        fullScreen();
 
     }
 
@@ -184,6 +164,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             msg = "Exit";
         }
         button1.setText(msg);
+
         transaction.replace(rootid, newFragment, "GAME");
         transaction.addToBackStack("GAME");
             transaction.commit();
@@ -246,5 +227,33 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
 
         }
+    }
+
+    private void fullScreen() {
+        detector = new SimpleGestureFilter(this, this);
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        uiOptions &= ~View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+        uiOptions &= ~View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+    }
+
+    private void checkforSpeech() {
+        getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        shouldIspeak = getPrefs.getBoolean("shouldIspeak", true);
+        speech_switch = (Switch) findViewById(R.id.speech_switch);
+        speech_switch.setChecked(shouldIspeak);
+        speech_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor e = getPrefs.edit();
+                shouldIspeak = speech_switch.isChecked();
+                e.putBoolean("shouldIspeak", shouldIspeak);
+                e.apply();
+            }
+        });
     }
 }
