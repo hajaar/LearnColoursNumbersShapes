@@ -18,5 +18,6 @@
         android:background="@drawable/customborder2"
         android:padding="8dp"
         android:scaleType="centerInside"/>
+
 </android.support.v7.widget.CardView>
 

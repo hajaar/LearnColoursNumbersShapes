@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
@@ -35,7 +36,13 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         detector = new SimpleGestureFilter(this, this);
-
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        uiOptions &= ~View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+        uiOptions &= ~View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(uiOptions);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         if (savedInstanceState != null) {
             getFragmentManager().executePendingTransactions();
@@ -74,9 +81,17 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
                     getSupportFragmentManager().popBackStack();
                     button1.setText("Exit");
+                    speakOut("Home");
                 } else {
+                    speakOut("Bye Bye");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            speakOut("Bye Bye");
+                            finishAndRemoveTask();
+                        }
+                    }, 1000);
 
-                    finishAndRemoveTask();
                 }
             }
         });
@@ -189,6 +204,8 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 str = "Swipe Right";
                 if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
                     getSupportFragmentManager().popBackStack();
+                    button1.setText("Exit");
+                    speakOut("Home");
                 }
                 break;
             case SimpleGestureFilter.SWIPE_LEFT:
