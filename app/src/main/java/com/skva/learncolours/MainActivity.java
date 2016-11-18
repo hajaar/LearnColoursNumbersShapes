@@ -30,10 +30,12 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     private Boolean shouldIspeak = true;
     private Switch speech_switch;
     private SharedPreferences getPrefs;
+    private Boolean isScreenSizeLarge = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         detector = new SimpleGestureFilter(this, this);
         int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
@@ -43,6 +45,9 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE;
         uiOptions &= ~View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+        if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
+            isScreenSizeLarge = true;
+        }
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         if (savedInstanceState != null) {
             getFragmentManager().executePendingTransactions();
@@ -56,6 +61,11 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         HomeScreenFragment homeScreenFragment = new HomeScreenFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootframe, homeScreenFragment, "HOME").addToBackStack("HOME").commit();
+
+        if (isScreenSizeLarge) {
+
+        }
+
         getPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this);
         shouldIspeak = getPrefs.getBoolean("shouldIspeak", true);
@@ -78,21 +88,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
             @Override
             public void onClick(View v) {
-                if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-                    getSupportFragmentManager().popBackStack();
-                    button1.setText("Exit");
-                    speakOut("Home");
-                } else {
-                    speakOut("Bye Bye");
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            speakOut("Bye Bye");
-                            finishAndRemoveTask();
-                        }
-                    }, 1000);
-
-                }
+                moveBack();
             }
         });
         button2 = (Button) findViewById(R.id.feedback);
@@ -157,7 +153,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         Bundle args = new Bundle();
         args.putInt("GAME_TYPE", gametype);
         newFragment.setArguments(args);
-        button1.setText("Home");
+
         switch (gametype) {
             case 0:
                 speakOut(getString(R.string.new_colours_game));
@@ -181,7 +177,14 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-        transaction.replace(R.id.rootframe, newFragment, "GAME");
+        int rootid = R.id.rootframe;
+        String msg = "Home";
+        if (isScreenSizeLarge) {
+            rootid = R.id.rootframe2;
+            msg = "Exit";
+        }
+        button1.setText(msg);
+        transaction.replace(rootid, newFragment, "GAME");
         transaction.addToBackStack("GAME");
             transaction.commit();
 
@@ -202,12 +205,10 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
             case SimpleGestureFilter.SWIPE_RIGHT:
                 str = "Swipe Right";
-                if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-                    getSupportFragmentManager().popBackStack();
-                    button1.setText("Exit");
-                    speakOut("Home");
-                }
+                moveBack();
                 break;
+
+
             case SimpleGestureFilter.SWIPE_LEFT:
                 str = "Swipe Left";
                 break;
@@ -225,5 +226,25 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     @Override
     public void onDoubleTap() {
         //Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
+    }
+
+    private void moveBack() {
+        if (isScreenSizeLarge || getSupportFragmentManager().getBackStackEntryCount() <= 1) {
+            speakOut("Bye Bye");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    speakOut("Bye Bye");
+                    finishAndRemoveTask();
+                }
+            }, 1000);
+        } else {
+
+            getSupportFragmentManager().popBackStack();
+            button1.setText("Exit");
+            speakOut("Home");
+
+
+        }
     }
 }
