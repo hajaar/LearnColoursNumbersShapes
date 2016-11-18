@@ -15,7 +15,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:label="@string/app_name"
 
             android:screenOrientation="userLandscape">
             <intent-filter>
@@ -23,9 +23,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.skva.learncolours.HomeScreenActivity"/>
         </activity>
         <activity android:name=".IntroActivity">
         </activity>

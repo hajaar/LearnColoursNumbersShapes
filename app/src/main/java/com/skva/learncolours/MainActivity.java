@@ -1,5 +1,7 @@
 package com.skva.learncolours;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
@@ -7,6 +9,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -17,6 +21,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     TextToSpeech t1;
     private SimpleGestureFilter detector;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private Button button1, button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,31 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootframe, homeScreenFragment, "HOME").addToBackStack("HOME").commit();
 
+        button1 = (Button) findViewById(R.id.back);
+        button1.setText("Exit");
+        button1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                    getSupportFragmentManager().popBackStack();
+                    button1.setText("Exit");
+                } else {
+                    finishAndRemoveTask();
+                }
+            }
+        });
+        button2 = (Button) findViewById(R.id.feedback);
+        button2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", "kartik.narayanan@gmail.com", null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Learn to Speak");
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+            }
+        });
 
     }
 
@@ -86,6 +116,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         Bundle args = new Bundle();
         args.putInt("GAME_TYPE", gametype);
         newFragment.setArguments(args);
+        button1.setText("Home");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         transaction.replace(R.id.rootframe, newFragment, "GAME");
