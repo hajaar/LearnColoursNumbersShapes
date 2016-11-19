@@ -28,7 +28,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     int[] buttonID = new int[COUNT];
     int[] layoutID = {R.id.b1, R.id.b2, R.id.b3, R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.b10};
     ImageView[] imageView = new ImageView[COUNT];
-    private GameData mGameData = new GameData();
+    private GameData mGameData;
     private SwipeRefreshLayout swipeContainer;
 
     public GameFragment() {
@@ -56,7 +56,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
+        mGameData = new GameData(getContext());
         animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
         animLeft = AnimationUtils.loadAnimation(getContext(), R.anim.appear);
 

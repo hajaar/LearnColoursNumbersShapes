@@ -27,7 +27,7 @@ public class IntroActivity extends AppIntro {
 
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("Learn By Listening", "blaps", R.drawable.apple, Color.parseColor("#6CD3F9")));
+        addSlide(AppIntroFragment.newInstance("Learn By Listening", "blaps", R.drawable.fruits_apple, Color.parseColor("#6CD3F9")));
         addSlide(AppIntroFragment.newInstance("kundi", "bum bum", R.drawable.help, Color.parseColor("#6CD3F9")));
         // OPTIONAL METHODS
         // Override bar/separator color.
