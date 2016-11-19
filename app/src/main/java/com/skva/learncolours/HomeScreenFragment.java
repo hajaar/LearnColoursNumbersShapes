@@ -119,7 +119,7 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
 
             myRecyclerViewAdapter.add(
                     myRecyclerViewAdapter.getItemCount(),
-                    "R.drawable.launcher" + i,
+                    getResources().getStringArray(R.array.games)[i],
                     getResources().getIdentifier("launcher_" + getResources().getStringArray(R.array.games)[i], "drawable", getActivity().getPackageName()));
 
 

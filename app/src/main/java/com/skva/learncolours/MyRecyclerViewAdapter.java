@@ -3,12 +3,14 @@ package com.skva.learncolours;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,8 @@ public class MyRecyclerViewAdapter extends
         int value = itemsValue.get(i);
         itemHolder.setItemValue(String.valueOf(value));
         Drawable drawable = context.getResources().getDrawable(value);
+        Log.d("MyRecycleViewAdapter", "onBind " + itemsName.get(i));
+        itemHolder.setItemValue(itemsName.get(i));
         itemHolder.setImageView(drawable);
     }
 
@@ -50,6 +54,7 @@ public class MyRecyclerViewAdapter extends
     }
 
     public void add(int location, String iName, int iValue) {
+        Log.d("MyRecycleViewAdapter", "add " + iName + " " + iValue);
         itemsName.add(location, iName);
         itemsValue.add(location, iValue);
         notifyItemInserted(location);
@@ -80,6 +85,7 @@ public class MyRecyclerViewAdapter extends
     public static class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageView;
+        TextView textView;
         private MyRecyclerViewAdapter parent;
         private View cardView;
 
@@ -88,13 +94,17 @@ public class MyRecyclerViewAdapter extends
             cardView = cView;
             cView.setOnClickListener(this);
             this.parent = parent;
-
+            textView = (TextView) cardView.findViewById(R.id.item_text);
             imageView = (ImageView) cardView.findViewById(R.id.item_image);
         }
 
 
         public void setItemValue(CharSequence val) {
-
+            Animation animLeft =
+                    AnimationUtils.loadAnimation(parent.context,
+                            R.anim.appear);
+            textView.setAnimation(animLeft);
+            textView.setText(val);
         }
 
 
