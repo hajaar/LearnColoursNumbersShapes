@@ -1,6 +1,7 @@
 package com.skva.learncolours;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -103,6 +104,7 @@ public class MyRecyclerViewAdapter extends
             Animation animLeft =
                     AnimationUtils.loadAnimation(parent.context,
                             R.anim.appear);
+            textView.setTypeface(Typeface.createFromAsset(parent.context.getAssets(), "ComicRelief.ttf"));
             textView.setAnimation(animLeft);
             textView.setText(val);
         }

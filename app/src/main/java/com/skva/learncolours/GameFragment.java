@@ -76,7 +76,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
             textView[i] = new TextView(getContext());
             textView[i].setGravity(Gravity.CENTER_HORIZONTAL);
             textView[i].setTypeface(Typeface.createFromAsset(getContext().getAssets(), "ComicRelief.ttf"));
-            textView[i].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            textView[i].setTextColor(getResources().getColor(R.color.colorPrimaryText));
             ll.addView(imageView[i], params1);
             ll.addView(textView[i], params2);
             imageView[i].setOnClickListener(this);
