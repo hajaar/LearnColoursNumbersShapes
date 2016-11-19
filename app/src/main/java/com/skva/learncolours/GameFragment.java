@@ -80,7 +80,6 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
             ll.addView(imageView[i], params1);
             ll.addView(textView[i], params2);
-            //ll.setBackground(getResources().getDrawable(R.drawable.solidcardborder));
             imageView[i].setOnClickListener(this);
             buttonID[i] = i;
 
@@ -159,6 +158,8 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     private void shuffleColors() {
 
         mGameData = new GameData(getContext(), getArguments().getInt("GAME_TYPE"));
+        ((TextView) getActivity().findViewById(R.id.game_header)).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "ComicRelief.ttf"));
+        ((TextView) getActivity().findViewById(R.id.game_header)).setText(mGameData.mGameName);
         mGameData.setRandomizedArray();
 
         for (int i = 0; i < COUNT; i++) {
