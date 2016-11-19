@@ -69,7 +69,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     0, 4);
             LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                     0, 1);
             imageView[i] = new ImageView(getContext());
             imageView[i].setId(i);
@@ -77,9 +77,10 @@ public class GameFragment extends Fragment implements View.OnClickListener {
             textView[i].setGravity(Gravity.CENTER_HORIZONTAL);
             textView[i].setTypeface(Typeface.createFromAsset(getContext().getAssets(), "ComicRelief.ttf"));
             textView[i].setTextColor(getResources().getColor(R.color.colorPrimaryText));
+
             ll.addView(imageView[i], params1);
             ll.addView(textView[i], params2);
-            ll.setBackground(getResources().getDrawable(R.drawable.gameitemborder));
+            //ll.setBackground(getResources().getDrawable(R.drawable.solidcardborder));
             imageView[i].setOnClickListener(this);
             buttonID[i] = i;
 

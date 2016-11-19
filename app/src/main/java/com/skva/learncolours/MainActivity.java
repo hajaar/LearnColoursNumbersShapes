@@ -129,9 +129,11 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         int rootid = R.id.rootframe;
         String msg = "Home";
+
         if (isScreenSizeLarge) {
             rootid = R.id.rootframe2;
             msg = "Exit";
+
         }
         button1.setText(msg);
 
@@ -192,6 +194,8 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         } else {
 
             getSupportFragmentManager().popBackStack();
+
+
             button1.setText("Exit");
             speakOut("Home");
 

@@ -8,10 +8,10 @@ import android.content.Context;
 
 public class GameData {
     private static int TOTAL_COUNT = 10;
+    public String mGameName;
     private int[] colorRank = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     private int[] tmpRank = new int[TOTAL_COUNT];
     private Context mContext;
-    private String mGameName;
 
     public GameData(Context context, Integer game_type) // constructor
     {
