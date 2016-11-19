@@ -86,6 +86,7 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
         myRecyclerView.setLayoutManager(mLinearLayoutManager);
         myRecyclerViewAdapter.setOnItemClickListener(this);
         prepareItems();
+
     }
 
     @Override

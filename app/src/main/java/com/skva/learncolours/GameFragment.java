@@ -56,7 +56,6 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mGameData = new GameData(getContext());
         animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
         animLeft = AnimationUtils.loadAnimation(getContext(), R.anim.appear);
 
@@ -140,18 +139,19 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
-        ((MainActivity) getActivity()).speakOut(mGameData.getName(GAME_TYPE, pos));
+        ((MainActivity) getActivity()).speakOut(mGameData.getName(pos));
 
     }
 
 
     private void shuffleColors() {
+
+        mGameData = new GameData(getContext(), getArguments().getInt("GAME_TYPE"));
         mGameData.setRandomizedArray();
-        GAME_TYPE = getArguments().getInt("GAME_TYPE");
 
         for (int i = 0; i < COUNT; i++) {
 
-            Glide.with(this).load(mGameData.getCode(GAME_TYPE, i)).animate(animLeft).fitCenter().into(imageView[i]);
+            Glide.with(this).load(mGameData.getCode(i)).animate(animLeft).fitCenter().into(imageView[i]);
         }
     }
 

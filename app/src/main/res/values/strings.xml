@@ -14,5 +14,88 @@
         <item>shapes</item>
         <item>underwater</item>
     </string-array>
-
+    <string-array name="animals">
+        <item>cat</item>
+        <item>cow</item>
+        <item>deer</item>
+        <item>dog</item>
+        <item>goat</item>
+        <item>horse</item>
+        <item>kangaroo</item>
+        <item>lion</item>
+        <item>monkey</item>
+        <item>tiger</item>
+    </string-array>
+    <string-array name="birds">
+        <item>crow</item>
+        <item>flamingo</item>
+        <item>kingfisher</item>
+        <item>ostrich</item>
+        <item>owl</item>
+        <item>parrot</item>
+        <item>peacock</item>
+        <item>penguin</item>
+        <item>sparrow</item>
+        <item>swan</item>
+    </string-array>
+    <string-array name="colors">
+        <item>black</item>
+        <item>blue</item>
+        <item>brown</item>
+        <item>gray</item>
+        <item>green</item>
+        <item>pink</item>
+        <item>purple</item>
+        <item>red</item>
+        <item>white</item>
+        <item>yellow</item>
+    </string-array>
+    <string-array name="fruits">
+        <item>apple</item>
+        <item>brinjal</item>
+        <item>cabbage</item>
+        <item>carrot</item>
+        <item>coconut</item>
+        <item>grapes</item>
+        <item>lemon</item>
+        <item>okra</item>
+        <item>orange</item>
+        <item>tomato</item>
+    </string-array>
+    <string-array name="numbers">
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+        <item>four</item>
+        <item>five</item>
+        <item>six</item>
+        <item>seven</item>
+        <item>eight</item>
+        <item>nine</item>
+        <item>ten</item>
+    </string-array>
+    <string-array name="shapes">
+        <item>rectangle</item>
+        <item>square</item>
+        <item>oval</item>
+        <item>circle</item>
+        <item>semicircle</item>
+        <item>diamond</item>
+        <item>heart</item>
+        <item>arrow</item>
+        <item>triangle</item>
+        <item>star</item>
+    </string-array>
+    <string-array name="underwater">
+        <item>crab</item>
+        <item>dolphin</item>
+        <item>fish</item>
+        <item>jellyfish</item>
+        <item>octopus</item>
+        <item>seahorse</item>
+        <item>shark</item>
+        <item>starfish</item>
+        <item>turtle</item>
+        <item>whale</item>
+    </string-array>
 </resources>
