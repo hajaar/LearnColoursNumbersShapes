@@ -84,33 +84,7 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
         t.start();
 
 
-       /* LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.home_list);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.MATCH_PARENT, 1);
-        params.setMargins(16, 8, 16, 8);
-        for (int i = 0; i < COUNT; i++) {
 
-            imageView[i] = new ImageView(getActivity());
-            imageView[i].setId(i);
-
-
-            imageView[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView[i].setPadding(4, 4, 4, 4);
-            //imageView[i].setBackground(getResources().getDrawable(R.drawable.skipcustomborder));
-            ll.addView(imageView[i], params);
-
-            imageView[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onGameSelected(view.getId());
-                    Log.d("home", view.getId() + "");
-                }
-            });
-
-            Glide.with(this).load(getResources().getIdentifier("launcher" + i, "drawable", getActivity().getPackageName())).into(imageView[i]);
-
-        }*/
         myRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
 
         mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

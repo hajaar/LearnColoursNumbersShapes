@@ -4,7 +4,6 @@ package com.skva.learncolours;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,29 +23,12 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     private static final int COUNT = 10;
     private static final String TAG = "GameFragment";
     static int GAME_TYPE = 0;
-    Animation animScale;
-    String[] colorText = {"Black", "Blue", "Brown", "Gray", "Green", "Pink", "Purple", "Red", "White", "Yellow"};
-    int[] colorCode = {R.drawable.black, R.drawable.blue, R.drawable.brown, R.drawable.gray, R.drawable.green, R.drawable.pink, R.drawable.purple, R.drawable.red, R.drawable.white, R.drawable.yellow};
-    String[] underwaterText = {"Crab", "Dolphin", "Fish", "Jellyfish", "Octopus", "Seahorse", "Shark", "Starfish", "Turtle", "Whale"};
-    int[] underwaterCode = {R.drawable.crab, R.drawable.dolphin, R.drawable.fish, R.drawable.jellyfish, R.drawable.octopus, R.drawable.seahorse, R.drawable.shark, R.drawable.starfish, R.drawable.turtle, R.drawable.whale};
+    Animation animScale, animLeft;
 
-    String[] numberText = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
-    String[] animalText = {"Cat", "Cow", "Deer", "Dog", "Goat", "Horse", "Kangaroo", "Lion", "Monkey", "Tiger"};
-    int[] animalCode = {R.drawable.cat, R.drawable.cow, R.drawable.deer, R.drawable.dog, R.drawable.goat, R.drawable.horse, R.drawable.kangaroo, R.drawable.lion, R.drawable.monkey, R.drawable.tiger};
-    String[] birdsText = {"Crow", "Flamingo", "Kingfisher", "Ostrich", "Owl", "Parrot", "Peacock", "Penguin", "Sparrow", "Swan"};
-    int[] birdsCode = {R.drawable.crow, R.drawable.flamingo, R.drawable.kingfisher, R.drawable.ostrich, R.drawable.owl, R.drawable.parrot, R.drawable.peacock, R.drawable.penguin, R.drawable.sparrow, R.drawable.swan};
-    String[] fruitsText = {"Apple", "brinjal", "cabbage", "carrot", "coconut", "grapes", "lemon", "okra", "orange", "tomato"};
-    int[] fruitsCode = {R.drawable.apple, R.drawable.brinjal, R.drawable.cabbage, R.drawable.carrot, R.drawable.coconut, R.drawable.grapes, R.drawable.lemon, R.drawable.okra, R.drawable.orange, R.drawable.tomato};
-
-    String[] shapeText = {"Rectangle", "Square", "Oval", "Circle", "Semi-circle", "Diamond", "Heart", "Arrow", "Triangle", "Star"};
-    int[] shapeCode = {R.drawable.shape1, R.drawable.shape2, R.drawable.shape3, R.drawable.shape4, R.drawable.shape5, R.drawable.shape6, R.drawable.shape7, R.drawable.shape8, R.drawable.shape9, R.drawable.shape10};
-    int[] numberCode = {R.drawable.number1, R.drawable.number2, R.drawable.number3, R.drawable.number4, R.drawable.number5, R.drawable.number6, R.drawable.number7, R.drawable.number8, R.drawable.number9, R.drawable.number10};
-    int[] colorRank = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int[] tmpRank = new int[COUNT];
     int[] buttonID = new int[COUNT];
     int[] layoutID = {R.id.b1, R.id.b2, R.id.b3, R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.b10};
     ImageView[] imageView = new ImageView[COUNT];
-    LinearLayout layout, gamelayout;
+    private GameData mGameData = new GameData();
     private SwipeRefreshLayout swipeContainer;
 
     public GameFragment() {
@@ -76,7 +58,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
 
         animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
-
+        animLeft = AnimationUtils.loadAnimation(getContext(), R.anim.appear);
 
         for (int i = 0; i < COUNT; i++) {
             LinearLayout ll = (LinearLayout) getActivity().findViewById(layoutID[i]);
@@ -158,106 +140,18 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
-        switch (GAME_TYPE) {
-            case 0:
-                Log.d("game", "here");
-                ((MainActivity) getActivity()).speakOut(colorText[tmpRank[pos]]);
-                break;
-            case 1:
-                ((MainActivity) getActivity()).speakOut(numberText[tmpRank[pos]]);
-                //t1.speak(numberText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
-                break;
-            case 2:
-                ((MainActivity) getActivity()).speakOut(shapeText[tmpRank[pos]]);
-                //t1.speak(shapeText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
-                break;
-            case 3:
-                ((MainActivity) getActivity()).speakOut(animalText[tmpRank[pos]]);
-                // t1.speak(animalText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
-                break;
-            case 4:
-                ((MainActivity) getActivity()).speakOut(birdsText[tmpRank[pos]]);
-                // t1.speak(birdsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
-                break;
-            case 5:
-                ((MainActivity) getActivity()).speakOut(fruitsText[tmpRank[pos]]);
-                //t1.speak(fruitsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
-                break;
-            case 6:
-                ((MainActivity) getActivity()).speakOut(underwaterText[tmpRank[pos]]);
-                //t1.speak(fruitsText[tmpRank[pos]], TextToSpeech.QUEUE_FLUSH, null);
-                break;
-        }
+        ((MainActivity) getActivity()).speakOut(mGameData.getName(GAME_TYPE, pos));
 
     }
-    private void setRandomizedArray() {
-        for (int i = 0; i < COUNT; i++) {
-            int j = (int) Math.floor(Math.random() * (i + 1));
-            if (j != i) {
-                tmpRank[i] = tmpRank[j];
-            }
-            tmpRank[j] = colorRank[i];
-        }
-    }
+
 
     private void shuffleColors() {
-        setRandomizedArray();
+        mGameData.setRandomizedArray();
         GAME_TYPE = getArguments().getInt("GAME_TYPE");
-        int imageResource = 0;
+
         for (int i = 0; i < COUNT; i++) {
 
-            imageView[i].setScaleType(ImageView.ScaleType.FIT_CENTER);
-            switch (GAME_TYPE) {
-                case 0: {
-                    imageResource = (colorCode[tmpRank[i]]);
-
-                    break;
-                }
-                case 1: {
-                    imageResource = (numberCode[tmpRank[i]]);
-
-                    break;
-                }
-                case 2: {
-                    imageResource = (shapeCode[tmpRank[i]]);
-
-
-                    break;
-
-                }
-                case 3: {
-                    imageResource = (animalCode[tmpRank[i]]);
-
-
-                    break;
-
-                }
-                case 4: {
-                    imageResource = (birdsCode[tmpRank[i]]);
-
-
-                    break;
-
-                }
-                case 5: {
-                    imageResource = (fruitsCode[tmpRank[i]]);
-
-
-                    break;
-                }
-                case 6: {
-                    imageResource = (underwaterCode[tmpRank[i]]);
-
-
-                    break;
-
-                }
-
-            }
-            Animation animLeft =
-                    AnimationUtils.loadAnimation(getContext(),
-                            R.anim.appear);
-            Glide.with(this).load(imageResource).animate(animLeft).into(imageView[i]);
+            Glide.with(this).load(mGameData.getCode(GAME_TYPE, i)).animate(animLeft).fitCenter().into(imageView[i]);
         }
     }
 

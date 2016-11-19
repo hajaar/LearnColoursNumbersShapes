@@ -18,15 +18,12 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 import java.util.Locale;
 
 
 public class MainActivity extends FragmentActivity implements HomeScreenFragment.OnItemSelectedListener, SimpleGestureFilter.SimpleGestureListener {
     TextToSpeech t1;
     private SimpleGestureFilter detector;
-    private FirebaseAnalytics mFirebaseAnalytics;
     private Button button1, button2;
     private Boolean shouldIspeak = true;
     private Switch speech_switch;
@@ -44,7 +41,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             isScreenSizeLarge = true;
         }
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         if (savedInstanceState != null) {
             getFragmentManager().executePendingTransactions();
             Fragment fragmentById = getSupportFragmentManager().
@@ -59,8 +56,6 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 .replace(R.id.rootframe, homeScreenFragment, "HOME").addToBackStack("HOME").commit();
 
         checkforSpeech();
-        //startSpeech();
-
 
 
         button1 = (Button) findViewById(R.id.back);
