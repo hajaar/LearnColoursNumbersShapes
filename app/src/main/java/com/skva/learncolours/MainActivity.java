@@ -78,7 +78,6 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
             }
         });
-
     }
 
 

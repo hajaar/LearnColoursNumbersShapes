@@ -1,9 +1,11 @@
 package com.skva.learncolours;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -28,6 +31,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     int[] buttonID = new int[COUNT];
     int[] layoutID = {R.id.b1, R.id.b2, R.id.b3, R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.b10};
     ImageView[] imageView = new ImageView[COUNT];
+    TextView[] textView = new TextView[COUNT];
     private GameData mGameData;
     private SwipeRefreshLayout swipeContainer;
 
@@ -61,14 +65,20 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
         for (int i = 0; i < COUNT; i++) {
             LinearLayout ll = (LinearLayout) getActivity().findViewById(layoutID[i]);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT);
-
+                    0, 4);
+            LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    0, 1);
             imageView[i] = new ImageView(getContext());
             imageView[i].setId(i);
-            ll.addView(imageView[i], params);
-
+            textView[i] = new TextView(getContext());
+            textView[i].setGravity(Gravity.CENTER_HORIZONTAL);
+            textView[i].setTypeface(Typeface.createFromAsset(getContext().getAssets(), "ComicRelief.ttf"));
+            textView[i].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            ll.addView(imageView[i], params1);
+            ll.addView(textView[i], params2);
             imageView[i].setOnClickListener(this);
             buttonID[i] = i;
 
@@ -152,6 +162,8 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         for (int i = 0; i < COUNT; i++) {
 
             Glide.with(this).load(mGameData.getCode(i)).animate(animLeft).fitCenter().into(imageView[i]);
+            textView[i].setAnimation(animLeft);
+            textView[i].setText(mGameData.getName(i));
         }
     }
 

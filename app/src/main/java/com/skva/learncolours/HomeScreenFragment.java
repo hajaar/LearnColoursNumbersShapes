@@ -25,6 +25,7 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
     private LinearLayoutManager mLinearLayoutManager;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
 
+
     public HomeScreenFragment() {
         // Required empty public constructor
     }
@@ -86,6 +87,7 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
         myRecyclerView.setLayoutManager(mLinearLayoutManager);
         myRecyclerViewAdapter.setOnItemClickListener(this);
         prepareItems();
+
 
     }
 
