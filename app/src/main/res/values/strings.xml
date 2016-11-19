@@ -9,10 +9,12 @@
         <item>animals</item>
         <item>birds</item>
         <item>colors</item>
+        <item>flowers</item>
         <item>fruits</item>
         <item>numbers</item>
         <item>shapes</item>
         <item>underwater</item>
+
     </string-array>
     <string-array name="animals">
         <item>cat</item>
@@ -37,6 +39,18 @@
         <item>penguin</item>
         <item>sparrow</item>
         <item>swan</item>
+    </string-array>
+    <string-array name="flowers">
+        <item>daisy</item>
+        <item>hibiscus</item>
+        <item>iris</item>
+        <item>lily</item>
+        <item>lotus</item>
+        <item>orchid</item>
+        <item>poppy</item>
+        <item>rose</item>
+        <item>tulip</item>
+        <item>violet</item>
     </string-array>
     <string-array name="colors">
         <item>black</item>
