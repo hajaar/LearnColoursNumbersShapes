@@ -123,30 +123,8 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         Bundle args = new Bundle();
         args.putInt("GAME_TYPE", gametype);
         newFragment.setArguments(args);
+        speakOut(getResources().getStringArray(R.array.games)[gametype]);
 
-        switch (gametype) {
-            case 0:
-                speakOut(getString(R.string.new_colours_game));
-                break;
-            case 1:
-                speakOut(getString(R.string.new_numbers_game));
-                break;
-            case 2:
-                speakOut(getString(R.string.new_shapes_game));
-                break;
-            case 3:
-                speakOut(getString(R.string.new_animals_game));
-                break;
-            case 4:
-                speakOut(getString(R.string.new_birds_game));
-                break;
-            case 5:
-                speakOut(getString(R.string.new_fruits_game));
-                break;
-            case 6:
-                speakOut(getString(R.string.new_underwater_game));
-                break;
-        }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);

@@ -13,20 +13,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapter.OnItemClickListener {
-    final static int COUNT = 7;
-    ImageView[] imageView = new ImageView[COUNT];
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private int GAME_COUNT;
     private OnItemSelectedListener listener;
     private RecyclerView myRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -82,7 +75,7 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
             }
         });
         t.start();
-
+        GAME_COUNT = getResources().getStringArray(R.array.games).length;
 
 
         myRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
@@ -115,22 +108,18 @@ public class HomeScreenFragment extends Fragment implements MyRecyclerViewAdapte
 
     @Override
     public void onItemClick(MyRecyclerViewAdapter.ItemHolder item, int position) {
-        Animation animScale =
-                AnimationUtils.loadAnimation(getContext(),
-                        R.anim.anim_scale);
-        item.imageView.setAnimation(animScale);
         listener.onGameSelected(position);
     }
 
     private void prepareItems() {
 
-        for (int i = 0; i < COUNT; i++) {
+        for (int i = 0; i < GAME_COUNT; i++) {
 
 
             myRecyclerViewAdapter.add(
                     myRecyclerViewAdapter.getItemCount(),
                     "R.drawable.launcher" + i,
-                    getResources().getIdentifier("launcher" + i, "drawable", getActivity().getPackageName()));
+                    getResources().getIdentifier("launcher_" + getResources().getStringArray(R.array.games)[i], "drawable", getActivity().getPackageName()));
 
 
         }

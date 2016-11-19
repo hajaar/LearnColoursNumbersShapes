@@ -10,5 +10,14 @@
     <string name="new_birds_game">Birds</string>
     <string name="new_fruits_game">Fruits and Veggies</string>
     <string name="new_underwater_game">Underwater</string>
+    <string-array name="games">
+        <item>animals</item>
+        <item>birds</item>
+        <item>colors</item>
+        <item>fruits</item>
+        <item>numbers</item>
+        <item>shapes</item>
+        <item>underwater</item>
+    </string-array>
 
 </resources>
