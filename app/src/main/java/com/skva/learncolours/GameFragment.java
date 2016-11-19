@@ -79,6 +79,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
             textView[i].setTextColor(getResources().getColor(R.color.colorPrimaryText));
             ll.addView(imageView[i], params1);
             ll.addView(textView[i], params2);
+            ll.setBackground(getResources().getDrawable(R.drawable.gameitemborder));
             imageView[i].setOnClickListener(this);
             buttonID[i] = i;
 

@@ -20,9 +20,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:background="@drawable/skipcustomborder"
+            android:background="@drawable/buttonborder"
             android:text="@string/exit_game"
-            android:textColor="@color/colorSecondaryText"/>
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryLight"/>
 
         <TextView
 
@@ -47,9 +48,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:background="@drawable/skipcustomborder"
+            android:background="@drawable/buttonborder"
             android:text="@string/action_feedback"
-            android:textColor="@color/colorSecondaryText"/>
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryLight"/>
 
 
     </RelativeLayout>

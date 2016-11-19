@@ -17,37 +17,44 @@
         <Button
             android:id="@+id/back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:background="@drawable/skipcustomborder"
-            android:text="@string/exit_game"/>
+            android:background="@drawable/buttonborder"
+            android:text="@string/exit_game"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryLight"/>
 
         <TextView
-            style="@style/LabelText"
-            android:layout_width="wrap_content"
 
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="@string/app_name"/>
+            android:text="@string/app_name"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/icons"/>
 
         <Switch
             android:id="@+id/speech_switch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/feedback"
-            android:text="Speech"/>
+            android:text="Speech"
+            android:textColor="@color/colorPrimaryLight"/>
 
         <Button
             android:id="@+id/feedback"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:background="@drawable/skipcustomborder"
-            android:text="@string/action_feedback"/>
+            android:background="@drawable/buttonborder"
+            android:text="@string/action_feedback"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryLight"/>
 
 
     </RelativeLayout>
+
 
     <FrameLayout android:id="@+id/rootframe"
 
