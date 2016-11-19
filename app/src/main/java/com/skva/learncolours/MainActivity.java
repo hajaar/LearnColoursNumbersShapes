@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -58,6 +59,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 .replace(R.id.rootframe, homeScreenFragment, "HOME").addToBackStack("HOME").commit();
 
         checkforSpeech();
+        //startSpeech();
 
 
 
@@ -86,6 +88,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
 
     public void speakOut(String msg) {
+        fullScreen();
         Log.d("Main", msg);
         shouldIspeak = getPrefs.getBoolean("shouldIspeak", true);
         if (shouldIspeak) {
@@ -105,14 +108,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     @Override
     public void onResume() {
         super.onResume();
-        t1 = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
-                }
-            }
-        });
+        startSpeech();
         fullScreen();
 
     }
@@ -128,7 +124,6 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     @Override
     public void onGameSelected(Integer gametype) {
         Log.d("Main", "" + gametype);
-
         GameFragment newFragment = new GameFragment();
         Bundle args = new Bundle();
         args.putInt("GAME_TYPE", gametype);
@@ -258,5 +253,30 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 e.apply();
             }
         });
+
+
     }
+
+    private void startSpeech() {
+        t1 = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int available = t1.setLanguage(Locale.US);
+                    if (available == TextToSpeech.LANG_MISSING_DATA || available == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Toast.makeText(getBaseContext(), "Please install Text To Speech from your settings menu", Toast.LENGTH_LONG).show();
+                    }
+                }
+               /* switch (status) {
+                    case TextToSpeech.ERROR_NOT_INSTALLED_YET :
+                        Toast.makeText(getBaseContext(),"Please install Text To Speech from your settings menu",Toast.LENGTH_LONG).show();break;
+                    case TextToSpeech.LANG_MISSING_DATA :
+                        Toast.makeText(getBaseContext(),"Please install Text To Speech from your settings menu",Toast.LENGTH_LONG).show();break;
+                }*/
+            }
+        });
+    }
+
+
+
 }
