@@ -103,7 +103,7 @@ public class MyRecyclerViewAdapter extends
         public void setItemValue(CharSequence val) {
             Animation animLeft =
                     AnimationUtils.loadAnimation(parent.context,
-                            R.anim.appear);
+                            R.anim.enter_from_bottom);
             textView.setTypeface(Typeface.createFromAsset(parent.context.getAssets(), "ComicRelief.ttf"));
             textView.setAnimation(animLeft);
             textView.setText(val);
@@ -113,7 +113,7 @@ public class MyRecyclerViewAdapter extends
         public void setImageView(Drawable drawable) {
             Animation animLeft =
                     AnimationUtils.loadAnimation(parent.context,
-                            R.anim.appear);
+                            R.anim.enter_from_top);
             imageView.setAnimation(animLeft);
             imageView.setImageDrawable(drawable);
         }
