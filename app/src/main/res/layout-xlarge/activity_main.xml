@@ -13,13 +13,13 @@
         android:background="@color/colorPrimaryDark"
         android:orientation="horizontal">
 
-
-        <ImageView
+        <ImageButton
             android:id="@+id/goback"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:background="@drawable/buttonborder"
             />
 
         <TextView
@@ -36,29 +36,36 @@
             android:id="@+id/speech_switch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/header"
+            android:layout_toStartOf="@+id/header"
             android:text="Speech"
             android:textColor="@color/colorPrimaryLight"/>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/information"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/notification"
-            android:background="@drawable/information"/>
+            android:layout_toStartOf="@+id/notification"
+            android:background="@drawable/buttonborder"
 
-        <ImageView
+            />
+
+        <ImageButton
             android:id="@+id/notification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/feedback"
-            android:background="@drawable/notification"/>
+            android:layout_toStartOf="@+id/feedback"
+            android:background="@drawable/buttonborder"
 
-        <ImageView
+            />
+
+        <ImageButton
             android:id="@+id/feedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/buttonborder"
+
+            />
 
 
     </RelativeLayout>

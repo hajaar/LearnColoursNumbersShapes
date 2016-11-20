@@ -36,6 +36,7 @@ public class IntroActivity extends AppIntro {
 
         // Hide Skip/Done button.
         showSkipButton(true);
+
         setProgressButtonEnabled(true);
 
     }
@@ -43,7 +44,8 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
-        // Do something when users tap on Skip button.
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

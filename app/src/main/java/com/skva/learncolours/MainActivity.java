@@ -1,5 +1,6 @@
 package com.skva.learncolours;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -40,6 +42,21 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             isScreenSizeLarge = true;
         }
 
+        SharedPreferences getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+
+
+        if (isFirstStart) {
+
+            Intent i = new Intent(this, IntroActivity.class);
+            startActivity(i);
+            SharedPreferences.Editor e = getPrefs.edit();
+            e.putBoolean("firstStart", false);
+            e.apply();
+        }
+
 
         if (savedInstanceState != null) {
             getFragmentManager().executePendingTransactions();
@@ -59,7 +76,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
         backButton = (ImageButton) findViewById(R.id.goback);
         backButton.setImageResource(R.drawable.exit);
-        //Glide.with(this).load(R.drawable.exit).fitCenter().into(backButton);
+
         backButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -69,7 +86,6 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         });
         feedbackButton = (ImageButton) findViewById(R.id.feedback);
         feedbackButton.setImageResource(R.drawable.feedback);
-        //Glide.with(this).load(R.drawable.feedback).fitCenter().into(feedbackButton);
 
         feedbackButton.setOnClickListener(new View.OnClickListener() {
 
@@ -81,26 +97,48 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
             }
         });
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         notificationButton = (ImageButton) findViewById(R.id.notification);
         notificationButton.setImageResource(R.drawable.notification);
-        //Glide.with(this).load(R.drawable.notification).fitCenter().into(notificationButton);
 
         notificationButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
+                builder.setTitle("In-App Purchases")
+                        .setMessage("Would you be interested in buying more content? Dont worry, you will not have to spend money now");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+                builder.setNeutralButton("Maybe, it depends on the price", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
         informationButton = (ImageButton) findViewById(R.id.information);
         informationButton.setImageResource(R.drawable.information);
-        //Glide.with(this).load(R.drawable.information).fitCenter().into(informationButton);
 
         informationButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getApplicationContext(), IntroActivity.class);
+                startActivity(i);
             }
         });
 
@@ -161,8 +199,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             imageResource = R.drawable.exit;
 
         }
-        backButton.setImageResource(R.drawable.home);
-        //Glide.with(this).load(imageResource).fitCenter().into(backButton);
+        backButton.setImageResource(imageResource);
 
         transaction.replace(rootid, newFragment, "GAME");
         transaction.addToBackStack("GAME");
