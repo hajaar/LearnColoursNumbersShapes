@@ -13,19 +13,15 @@
         android:background="@color/colorPrimaryDark"
         android:orientation="horizontal">
 
-
-        <Button
-            android:id="@+id/back"
+        <ImageView
+            android:id="@+id/goback"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:background="@drawable/buttonborder"
-            android:text="@string/exit_game"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimaryLight"/>
+            />
 
         <TextView
-
+            android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
@@ -38,20 +34,29 @@
             android:id="@+id/speech_switch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/feedback"
+            android:layout_toLeftOf="@+id/header"
             android:text="Speech"
             android:textColor="@color/colorPrimaryLight"/>
 
-        <Button
+        <ImageView
+            android:id="@+id/information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/notification"
+            android:background="@drawable/information"/>
+
+        <ImageView
+            android:id="@+id/notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/feedback"
+            android:background="@drawable/notification"/>
+
+        <ImageView
             android:id="@+id/feedback"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/buttonborder"
-            android:text="@string/action_feedback"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimaryLight"/>
-
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 

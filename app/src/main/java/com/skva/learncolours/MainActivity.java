@@ -11,20 +11,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.Locale;
 
 
-public class MainActivity extends FragmentActivity implements HomeScreenFragment.OnItemSelectedListener, SimpleGestureFilter.SimpleGestureListener {
+public class MainActivity extends FragmentActivity implements HomeScreenFragment.OnItemSelectedListener {
     TextToSpeech t1;
-    private SimpleGestureFilter detector;
-    private Button button1, button2;
+
+    private ImageButton backButton, feedbackButton, informationButton, notificationButton;
     private Boolean shouldIspeak = true;
     private Switch speech_switch;
     private SharedPreferences getPrefs;
@@ -58,17 +57,21 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         checkforSpeech();
 
 
-        button1 = (Button) findViewById(R.id.back);
-        button1.setText("Exit");
-        button1.setOnClickListener(new View.OnClickListener() {
+        backButton = (ImageButton) findViewById(R.id.goback);
+        backButton.setImageResource(R.drawable.exit);
+        //Glide.with(this).load(R.drawable.exit).fitCenter().into(backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 moveBack();
             }
         });
-        button2 = (Button) findViewById(R.id.feedback);
-        button2.setOnClickListener(new View.OnClickListener() {
+        feedbackButton = (ImageButton) findViewById(R.id.feedback);
+        feedbackButton.setImageResource(R.drawable.feedback);
+        //Glide.with(this).load(R.drawable.feedback).fitCenter().into(feedbackButton);
+
+        feedbackButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -78,6 +81,29 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
             }
         });
+        notificationButton = (ImageButton) findViewById(R.id.notification);
+        notificationButton.setImageResource(R.drawable.notification);
+        //Glide.with(this).load(R.drawable.notification).fitCenter().into(notificationButton);
+
+        notificationButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        informationButton = (ImageButton) findViewById(R.id.information);
+        informationButton.setImageResource(R.drawable.information);
+        //Glide.with(this).load(R.drawable.information).fitCenter().into(informationButton);
+
+        informationButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 
@@ -128,14 +154,15 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         int rootid = R.id.rootframe;
-        String msg = "Home";
+        int imageResource = R.drawable.home;
 
         if (isScreenSizeLarge) {
             rootid = R.id.rootframe2;
-            msg = "Exit";
+            imageResource = R.drawable.exit;
 
         }
-        button1.setText(msg);
+        backButton.setImageResource(R.drawable.home);
+        //Glide.with(this).load(imageResource).fitCenter().into(backButton);
 
         transaction.replace(rootid, newFragment, "GAME");
         transaction.addToBackStack("GAME");
@@ -143,43 +170,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent me) {
-        // Call onTouchEvent of SimpleGestureFilter class
-        this.detector.onTouchEvent(me);
-        return super.dispatchTouchEvent(me);
-    }
 
-    @Override
-    public void onSwipe(int direction) {
-        String str = "";
-
-        switch (direction) {
-
-            case SimpleGestureFilter.SWIPE_RIGHT:
-                str = "Swipe Right";
-                //moveBack();
-                break;
-
-
-            case SimpleGestureFilter.SWIPE_LEFT:
-                str = "Swipe Left";
-                break;
-            case SimpleGestureFilter.SWIPE_DOWN:
-                str = "Swipe Down";
-                break;
-            case SimpleGestureFilter.SWIPE_UP:
-                str = "Swipe Up";
-                break;
-
-        }
-        //Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDoubleTap() {
-        //Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
-    }
 
     private void moveBack() {
         if (isScreenSizeLarge || getSupportFragmentManager().getBackStackEntryCount() <= 1) {
@@ -195,16 +186,17 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
             getSupportFragmentManager().popBackStack();
 
-
-            button1.setText("Exit");
+            backButton.setImageResource(R.drawable.exit);
             speakOut("Home");
+            //Glide.with(this).load(R.drawable.exit).fitCenter().into(backButton);
 
 
         }
+
     }
 
     private void fullScreen() {
-        detector = new SimpleGestureFilter(this, this);
+
         int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
         uiOptions &= ~View.SYSTEM_UI_FLAG_LOW_PROFILE;
         uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
