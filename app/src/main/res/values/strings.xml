@@ -6,6 +6,7 @@
     <string name="exit_game">Exit</string>
 
     <string-array name="games">
+        <item>test</item>
         <item>animals</item>
         <item>birds</item>
         <item>colors</item>
@@ -112,4 +113,7 @@
         <item>turtle</item>
         <item>whale</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

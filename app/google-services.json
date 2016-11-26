@@ -1,0 +1,112 @@
+{
+  "project_info": {
+    "project_number": "464990303916",
+    "firebase_url": "https://admob-app-id-7454981680.firebaseio.com",
+    "project_id": "admob-app-id-7454981680",
+    "storage_bucket": "admob-app-id-7454981680.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464990303916:android:2f7be5c2a18db290",
+        "android_client_info": {
+          "package_name": "com.kartikn.powermonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464990303916-a4i7238ujqjnc1l6b4ekaia4a3ba41mi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kartikn.powermonitor",
+            "certificate_hash": "CC2FD1376325F139690B83A23D37707B7B17172B"
+          }
+        },
+        {
+          "client_id": "464990303916-6nh23a6k29465r2j33m7lqnpajisi0c1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhbw7qAsqd6XUC_yyuST7U9h3j3G11YAI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464990303916:android:55ff3ef43a1bb1d6",
+        "android_client_info": {
+          "package_name": "com.skva.mathsplayforkids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464990303916-6nh23a6k29465r2j33m7lqnpajisi0c1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhbw7qAsqd6XUC_yyuST7U9h3j3G11YAI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464990303916:android:e079ecaea00f4491",
+        "android_client_info": {
+          "package_name": "com.skva.learncolours"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464990303916-6nh23a6k29465r2j33m7lqnpajisi0c1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhbw7qAsqd6XUC_yyuST7U9h3j3G11YAI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

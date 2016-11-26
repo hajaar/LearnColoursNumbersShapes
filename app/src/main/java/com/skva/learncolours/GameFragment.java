@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.Random;
 
 
 /**
@@ -34,6 +37,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     TextView[] textView = new TextView[COUNT];
     private GameData mGameData;
     private SwipeRefreshLayout swipeContainer;
+    private int testImagePostion;
 
     public GameFragment() {
         // Required empty public constructor
@@ -45,6 +49,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         Bundle b = new Bundle();
         b.putInt("GAME_TYPE", game_type);
         GAME_TYPE = game_type;
+        Log.d(TAG, "newInstance: GAME_TYPE" + game_type);
         f.setArguments(b);
 
         return f;
@@ -59,11 +64,14 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        GAME_TYPE = getArguments().getInt("GAME_TYPE");
+        Log.d(TAG, "onActivityCreated: GAME_TYPE" + GAME_TYPE);
         animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
         animLeft = AnimationUtils.loadAnimation(getContext(), R.anim.appear);
-
+        if (GAME_TYPE != 0) {
         for (int i = 0; i < COUNT; i++) {
+            ImageView testImage = (ImageView) getActivity().findViewById(R.id.test_image);
+            testImage.setVisibility(View.GONE);
             LinearLayout ll = (LinearLayout) getActivity().findViewById(layoutID[i]);
             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -85,7 +93,12 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
 
         }
-
+        } else {
+            ImageView testImage = (ImageView) getActivity().findViewById(R.id.test_image);
+            testImage.setVisibility(View.VISIBLE);
+            testImage.setPadding(32, 64, 32, 32);
+            //testImage.setImageDrawable(getResources().getDrawable(R.drawable.launcher_test));
+        }
 
         swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
 
@@ -101,6 +114,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         shuffleColors();
 
 
+
     }
 
 
@@ -109,64 +123,81 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         int i = v.getId();
         v.startAnimation(animScale);
         int clickid = 0;
-        for (int j = 0; j < COUNT; j++) {
-            if (buttonID[j] == i) {
-                clickid = j;
-                break;
-            }
-        }
         int pos = 0;
+        if (GAME_TYPE != 0) {
+            for (int j = 0; j < COUNT; j++) {
+                if (buttonID[j] == i) {
+                    clickid = j;
+                    break;
+                }
+            }
 
-        switch (layoutID[clickid]) {
-            case R.id.b1:
-                pos = 0;
-                break;
-            case R.id.b2:
-                pos = 1;
-                break;
-            case R.id.b3:
-                pos = 2;
-                break;
-            case R.id.b4:
-                pos = 3;
-                break;
-            case R.id.b5:
-                pos = 4;
-                break;
-            case R.id.b6:
-                pos = 5;
-                break;
-            case R.id.b7:
-                pos = 6;
-                break;
-            case R.id.b8:
-                pos = 7;
-                break;
-            case R.id.b9:
-                pos = 8;
-                break;
-            case R.id.b10:
-                pos = 9;
-                break;
+
+            switch (layoutID[clickid]) {
+                case R.id.b1:
+                    pos = 0;
+                    break;
+                case R.id.b2:
+                    pos = 1;
+                    break;
+                case R.id.b3:
+                    pos = 2;
+                    break;
+                case R.id.b4:
+                    pos = 3;
+                    break;
+                case R.id.b5:
+                    pos = 4;
+                    break;
+                case R.id.b6:
+                    pos = 5;
+                    break;
+                case R.id.b7:
+                    pos = 6;
+                    break;
+                case R.id.b8:
+                    pos = 7;
+                    break;
+                case R.id.b9:
+                    pos = 8;
+                    break;
+                case R.id.b10:
+                    pos = 9;
+                    break;
+            }
+
+
+        } else {
+            pos = testImagePostion;
         }
-
+        Log.d(TAG, "onClick: " + (mGameData.getName(pos)));
         ((MainActivity) getActivity()).speakOut(mGameData.getName(pos));
-
     }
 
 
     private void shuffleColors() {
 
-        mGameData = new GameData(getContext(), getArguments().getInt("GAME_TYPE"));
+        mGameData = new GameData(getContext(), GAME_TYPE);
+        Log.d(TAG, "shuffleColors: mGamedata " + GAME_TYPE);
         ((TextView) getActivity().findViewById(R.id.game_header)).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "ComicRelief.ttf"));
         ((TextView) getActivity().findViewById(R.id.game_header)).setText(mGameData.mGameName);
         mGameData.setRandomizedArray();
+        if (GAME_TYPE != 0) {
+
 
         for (int i = 0; i < COUNT; i++) {
 
             Glide.with(this).load(mGameData.getCode(i)).animate(animLeft).fitCenter().into(imageView[i]);
             textView[i].setAnimation(animLeft);
             textView[i].setText(mGameData.getName(i));
+        }
+        } else {
+            Random random = new Random();
+            testImagePostion = random.nextInt(10);
+            Log.d(TAG, "shuffleColors: " + testImagePostion);
+            Glide.with(this).load(mGameData.getCode(testImagePostion)).animate(animLeft).fitCenter().into((ImageView) getActivity().findViewById(R.id.test_image));
+            //textView[i].setAnimation(animLeft);
+            //textView[i].setText(mGameData.getName(i));
         }
     }
 

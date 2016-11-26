@@ -1,6 +1,9 @@
 package com.skva.learncolours;
 
 import android.content.Context;
+import android.util.Log;
+
+import java.util.Random;
 
 /**
  * Created by kartikn on 19-11-2016.
@@ -9,6 +12,7 @@ import android.content.Context;
 public class GameData {
     private static int TOTAL_COUNT = 10;
     public String mGameName;
+    String TAG = "GameData";
     private int[] colorRank = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     private int[] tmpRank = new int[TOTAL_COUNT];
     private Context mContext;
@@ -16,7 +20,13 @@ public class GameData {
     public GameData(Context context, Integer game_type) // constructor
     {
         mContext = context;
-        mGameName = mContext.getResources().getStringArray(R.array.games)[game_type];
+        int actual_game_type = game_type;
+        if (game_type == 0) {
+            Random random = new Random();
+
+            actual_game_type = random.nextInt(mContext.getResources().getStringArray(R.array.games).length - 1) + 1;
+        }
+        mGameName = mContext.getResources().getStringArray(R.array.games)[actual_game_type];
     }
 
 
@@ -26,6 +36,7 @@ public class GameData {
     }
 
     public Integer getCode(int position) {
+        Log.d(TAG, "getCode: " + position + mGameName + getName(position).toLowerCase());
         return mContext.getResources().getIdentifier(mGameName + "_" + getName(position).toLowerCase(), "drawable", mContext.getPackageName());
 
     }
