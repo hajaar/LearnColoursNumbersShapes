@@ -21,10 +21,10 @@ public class GameData {
     {
         mContext = context;
         int actual_game_type = game_type;
-        if (game_type == 0) {
+        if (game_type == mContext.getResources().getStringArray(R.array.games).length - 1) {
             Random random = new Random();
 
-            actual_game_type = random.nextInt(mContext.getResources().getStringArray(R.array.games).length - 1) + 1;
+            actual_game_type = random.nextInt(mContext.getResources().getStringArray(R.array.games).length - 1);
         }
         mGameName = mContext.getResources().getStringArray(R.array.games)[actual_game_type];
     }

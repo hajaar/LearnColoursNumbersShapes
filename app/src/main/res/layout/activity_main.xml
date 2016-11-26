@@ -34,13 +34,6 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/icons"/>
 
-        <Switch
-            android:id="@+id/music_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toStartOf="@+id/speech_switch"
-            android:text="Music"
-            android:textColor="@color/colorPrimaryLight"/>
 
         <Switch
             android:id="@+id/speech_switch"

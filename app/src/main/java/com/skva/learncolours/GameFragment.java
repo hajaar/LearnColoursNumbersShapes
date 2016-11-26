@@ -68,7 +68,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         Log.d(TAG, "onActivityCreated: GAME_TYPE" + GAME_TYPE);
         animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
         animLeft = AnimationUtils.loadAnimation(getContext(), R.anim.appear);
-        if (GAME_TYPE != 0) {
+        if (GAME_TYPE != getResources().getStringArray(R.array.games).length - 1) {
         for (int i = 0; i < COUNT; i++) {
             ImageView testImage = (ImageView) getActivity().findViewById(R.id.test_image);
             testImage.setVisibility(View.GONE);
@@ -126,7 +126,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         v.startAnimation(animScale);
         int clickid = 0;
         int pos = 0;
-        if (GAME_TYPE != 0) {
+        if (GAME_TYPE != getResources().getStringArray(R.array.games).length - 1) {
             for (int j = 0; j < COUNT; j++) {
                 if (buttonID[j] == i) {
                     clickid = j;
@@ -184,7 +184,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         ((TextView) getActivity().findViewById(R.id.game_header)).setTypeface(Typeface.createFromAsset(getContext().getAssets(), "ComicRelief.ttf"));
         ((TextView) getActivity().findViewById(R.id.game_header)).setText(mGameData.mGameName);
         mGameData.setRandomizedArray();
-        if (GAME_TYPE != 0) {
+        if (GAME_TYPE != getResources().getStringArray(R.array.games).length - 1) {
 
 
         for (int i = 0; i < COUNT; i++) {

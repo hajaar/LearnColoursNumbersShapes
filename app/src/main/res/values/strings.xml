@@ -6,7 +6,6 @@
     <string name="exit_game">Exit</string>
 
     <string-array name="games">
-        <item>test</item>
         <item>animals</item>
         <item>birds</item>
         <item>colors</item>
@@ -15,6 +14,7 @@
         <item>numbers</item>
         <item>shapes</item>
         <item>underwater</item>
+        <item>test</item>
 
     </string-array>
     <string-array name="animals">
