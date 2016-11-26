@@ -98,6 +98,8 @@ public class GameFragment extends Fragment implements View.OnClickListener {
             testImage.setVisibility(View.VISIBLE);
             testImage.setPadding(32, 64, 32, 32);
             //testImage.setImageDrawable(getResources().getDrawable(R.drawable.launcher_test));
+            testImage.setOnClickListener(this);
+
         }
 
         swipeContainer = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeContainer);
