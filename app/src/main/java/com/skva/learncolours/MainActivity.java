@@ -19,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.Locale;
 
 
@@ -31,6 +33,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     private SharedPreferences getPrefs;
     private Boolean isScreenSizeLarge = false;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,10 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         fullScreen();
         if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
             isScreenSizeLarge = true;
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Big Screen");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " Big Screen");
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Content");
         }
 
         SharedPreferences getPrefs = PreferenceManager
@@ -91,9 +98,14 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Feedback");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Feedback");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                         "mailto", "kartik.narayanan@gmail.com", null));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Learn to Speak");
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
             }
         });
@@ -110,19 +122,28 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                         .setMessage("Would you be interested in buying more content? Dont worry, you will not have to spend money now");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Yes Dialog");
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " Yes Dialog");
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " No Dialog");
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " No Dialog");
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
                     }
                 });
 
                 builder.setNeutralButton("Maybe, it depends on the price", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Maybe Dialog");
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " Maybe Dialog");
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
                     }
                 });
 
@@ -137,6 +158,10 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Info");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " Info");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
                 Intent i = new Intent(getApplicationContext(), IntroActivity.class);
                 startActivity(i);
             }
@@ -187,7 +212,10 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         args.putInt("GAME_TYPE", gametype);
         newFragment.setArguments(args);
         speakOut(getResources().getStringArray(R.array.games)[gametype]);
-
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getResources().getStringArray(R.array.games)[gametype]);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getResources().getStringArray(R.array.games)[gametype]);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Content");
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
@@ -247,11 +275,16 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         getPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this);
         shouldIspeak = getPrefs.getBoolean("shouldIspeak", true);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "" + shouldIspeak);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "" + shouldIspeak);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Content");
         speech_switch = (Switch) findViewById(R.id.speech_switch);
         speech_switch.setChecked(shouldIspeak);
         speech_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
                 SharedPreferences.Editor e = getPrefs.edit();
                 shouldIspeak = speech_switch.isChecked();
                 e.putBoolean("shouldIspeak", shouldIspeak);
@@ -269,6 +302,10 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 if (status == TextToSpeech.SUCCESS) {
                     int available = t1.setLanguage(Locale.US);
                     if (available == TextToSpeech.LANG_MISSING_DATA || available == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "TTS NA");
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "TTS NA");
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Content");
                         Toast.makeText(getBaseContext(), "Please install Text To Speech from your settings menu", Toast.LENGTH_LONG).show();
                     }
                 }
