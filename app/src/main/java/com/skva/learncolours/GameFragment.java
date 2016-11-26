@@ -96,7 +96,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         } else {
             ImageView testImage = (ImageView) getActivity().findViewById(R.id.test_image);
             testImage.setVisibility(View.VISIBLE);
-            testImage.setPadding(32, 64, 32, 32);
+            testImage.setPadding(0, 16, 0, 0);
             //testImage.setImageDrawable(getResources().getDrawable(R.drawable.launcher_test));
             testImage.setOnClickListener(this);
 

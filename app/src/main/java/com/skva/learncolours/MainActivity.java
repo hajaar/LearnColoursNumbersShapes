@@ -41,7 +41,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
 
         setContentView(R.layout.activity_main);
         fullScreen();
-        if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
+        if (getResources().getConfiguration().smallestScreenWidthDp >= 700) {
             isScreenSizeLarge = true;
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Big Screen");
