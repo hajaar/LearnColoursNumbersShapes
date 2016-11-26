@@ -3,6 +3,7 @@ package com.skva.learncolours;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,13 +27,12 @@ import java.util.Locale;
 
 public class MainActivity extends FragmentActivity implements HomeScreenFragment.OnItemSelectedListener {
     TextToSpeech t1;
-
+    MediaPlayer player;
     private ImageButton backButton, feedbackButton, informationButton, notificationButton;
     private Boolean shouldIspeak = true;
     private Switch speech_switch;
     private SharedPreferences getPrefs;
     private Boolean isScreenSizeLarge = false;
-
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -64,7 +64,10 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             e.apply();
         }
 
-
+        player = MediaPlayer.create(this, R.raw.background1);
+        player.setLooping(true); // Set looping
+        player.setVolume(100, 100);
+        player.start();
         if (savedInstanceState != null) {
             getFragmentManager().executePendingTransactions();
             Fragment fragmentById = getSupportFragmentManager().
@@ -200,7 +203,8 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     public void onDestroy() {
 
         t1.shutdown();
-
+        player.stop();
+        player.release();
         super.onDestroy();
     }
 
