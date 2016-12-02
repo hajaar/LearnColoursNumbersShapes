@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setContentView(R.layout.activity_main);
         fullScreen();
         if (getResources().getConfiguration().smallestScreenWidthDp >= 700) {
@@ -47,6 +47,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Big Screen");
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " Big Screen");
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Content");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
 
         SharedPreferences getPrefs = PreferenceManager
@@ -64,10 +65,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
             e.apply();
         }
 
-        player = MediaPlayer.create(this, R.raw.background1);
-        player.setLooping(true); // Set looping
-        player.setVolume(100, 100);
-        player.start();
+
         if (savedInstanceState != null) {
             getFragmentManager().executePendingTransactions();
             Fragment fragmentById = getSupportFragmentManager().
@@ -129,6 +127,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Yes Dialog");
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " Yes Dialog");
                         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -137,6 +136,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " No Dialog");
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " No Dialog");
                         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                     }
                 });
 
@@ -147,6 +147,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Maybe Dialog");
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " Maybe Dialog");
                         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                     }
                 });
 
@@ -165,6 +166,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, " Info");
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, " Info");
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Button");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 Intent i = new Intent(getApplicationContext(), IntroActivity.class);
                 startActivity(i);
             }
@@ -194,6 +196,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     @Override
     public void onResume() {
         super.onResume();
+
         startSpeech();
         fullScreen();
 
@@ -203,8 +206,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
     public void onDestroy() {
 
         t1.shutdown();
-        player.stop();
-        player.release();
+
         super.onDestroy();
     }
 
@@ -220,7 +222,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, getResources().getStringArray(R.array.games)[gametype]);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getResources().getStringArray(R.array.games)[gametype]);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Content");
-
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         int rootid = R.id.rootframe;
@@ -283,6 +285,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "" + shouldIspeak);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "" + shouldIspeak);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Content");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         speech_switch = (Switch) findViewById(R.id.speech_switch);
         speech_switch.setChecked(shouldIspeak);
         speech_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -310,6 +313,7 @@ public class MainActivity extends FragmentActivity implements HomeScreenFragment
                         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "TTS NA");
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "TTS NA");
                         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Content");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                         Toast.makeText(getBaseContext(), "Please install Text To Speech from your settings menu", Toast.LENGTH_LONG).show();
                     }
                 }
