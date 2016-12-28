@@ -14,8 +14,8 @@
         <item>numbers</item>
         <item>shapes</item>
         <item>underwater</item>
+        <item>vehicles</item>
         <item>test</item>
-
     </string-array>
     <string-array name="animals">
         <item>cat</item>
@@ -113,7 +113,18 @@
         <item>turtle</item>
         <item>whale</item>
     </string-array>
-
+    <string-array name="vehicles">
+        <item>balloon</item>
+        <item>bicycle</item>
+        <item>boat</item>
+        <item>bus</item>
+        <item>car</item>
+        <item>plane</item>
+        <item>scooter</item>
+        <item>ship</item>
+        <item>train</item>
+        <item>truck</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
