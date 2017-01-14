@@ -9,6 +9,7 @@
         <item>animals</item>
         <item>birds</item>
         <item>colors</item>
+        <item>farm</item>
         <item>flowers</item>
         <item>fruits</item>
         <item>numbers</item>
@@ -41,18 +42,6 @@
         <item>sparrow</item>
         <item>swan</item>
     </string-array>
-    <string-array name="flowers">
-        <item>daisy</item>
-        <item>hibiscus</item>
-        <item>iris</item>
-        <item>lily</item>
-        <item>lotus</item>
-        <item>orchid</item>
-        <item>poppy</item>
-        <item>rose</item>
-        <item>tulip</item>
-        <item>violet</item>
-    </string-array>
     <string-array name="colors">
         <item>black</item>
         <item>blue</item>
@@ -65,6 +54,31 @@
         <item>white</item>
         <item>yellow</item>
     </string-array>
+    <string-array name="farm">
+        <item>barn</item>
+        <item>crops</item>
+        <item>fence</item>
+        <item>harvest</item>
+        <item>haystack</item>
+        <item>rake</item>
+        <item>scarecrow</item>
+        <item>tractor</item>
+        <item>tree</item>
+        <item>windmill</item>
+    </string-array>
+    <string-array name="flowers">
+        <item>daisy</item>
+        <item>hibiscus</item>
+        <item>iris</item>
+        <item>lily</item>
+        <item>lotus</item>
+        <item>orchid</item>
+        <item>poppy</item>
+        <item>rose</item>
+        <item>tulip</item>
+        <item>violet</item>
+    </string-array>
+
     <string-array name="fruits">
         <item>apple</item>
         <item>brinjal</item>
@@ -125,6 +139,4 @@
         <item>train</item>
         <item>truck</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
